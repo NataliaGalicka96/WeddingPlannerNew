@@ -1,0 +1,166 @@
+body {
+    background-color: #fff9f9
+}
+
+#logo {
+    width: 300px;
+}
+
+.logo {
+    margin-top: 20px;
+    display: flex;
+    justify-content: center;
+}
+
+
+
+.login {
+    height: auto;
+    padding: 20px 20px;
+    background-color: pink;
+    text-align: center;
+    margin-top: 45px;
+    margin-bottom: 45px;
+    box-shadow: 10px 5px 5px rgb(173, 165, 165);
+    transition: all 0.5s ease-out;
+    border: none;
+    font-size: 18px;
+    color: #756c6e;
+
+}
+
+.col-10 {
+    margin-right: auto;
+    margin-left: auto;
+}
+
+.title {
+    margin-bottom: 20px;
+    font-size: 20px;
+}
+
+
+form .row input {
+
+    border: 2px solid #756c6e;
+    border-radius: 6px;
+    transition: all 0.3s ease;
+}
+
+
+form .row input:focus {
+    border-color: #756c6e;
+    box-shadow: inset 0px 0px 2px 2px #ef97aa;
+}
+
+
+form .row i {
+    background-color: #ef97aa;
+    height: 100%;
+    width: 47px;
+    border: 2px solid #756c6e;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    border-radius: 6px 0 0 6px;
+    color: #756c6e;
+
+}
+
+
+
+.btn {
+
+    background-color: #e08296;
+    color: black;
+    text-align: center;
+    display: flex;
+    flex-direction: column-reverse;
+    justify-content: center;
+    box-shadow: 10px 5px 5px rgb(173 165 165);
+    transition: all 0.5s ease-out;
+    border: none;
+    font-size: 18px;
+    padding-left: 20px;
+    padding-right: 20px;
+}
+
+
+.btn:hover,
+.btn:focus {
+    transform: scale(1.1);
+    border: none;
+    color: #383435;
+    background-color: #e08296;
+
+}
+
+
+
+.button {
+    display: flex;
+    justify-content: center;
+}
+
+.signin,
+.signup {
+    text-align: center;
+    margin-top: 10px;
+    font-size: 13px;
+}
+
+.signin a,
+.signup a {
+    color: rgb(68, 68, 68);
+    text-decoration: none;
+}
+
+form .signin a:hover,
+form .signup a:hover {
+    text-decoration: underline;
+}
+
+#showPassword {
+    display: flex;
+    margin-top: 10px;
+
+}
+
+label {
+    font-size: 15px;
+}
+
+.form-check-input:hover,
+.form-check-input:focus {
+    border-color: #756c6e;
+    box-shadow: inset 0px 0px 2px 2px #ef97aa;
+}
+
+.form-check-input:checked {
+    background-color: #ef97aa;
+    border-color: #ef97aa;
+}
+
+#remember {
+    border-top-right-radius: 25% !important;
+    border-bottom-right-radius: 25% !important;
+}
+
+.pass {
+    display: flex;
+    justify-content: space-between;
+    font-size: 13px;
+}
+
+form .pass label {
+    color: rgb(68, 68, 68);
+}
+
+form .pass a {
+    color: rgb(68, 68, 68);
+    text-decoration: none;
+}
+
+form .pass a:hover {
+    text-decoration: underline;
+}
