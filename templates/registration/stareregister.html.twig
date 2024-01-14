@@ -1,0 +1,70 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}Register{% endblock %}
+
+{% block stylesheets %}
+   <link rel="stylesheet" href="{{ asset('styles/login.css') }}">
+{% endblock %}
+
+
+{% block body %}
+    {% for flash_error in app.flashes('verify_email_error') %}
+        <div class="alert alert-danger" role="alert">{{ flash_error }}</div>
+{% endfor %}
+
+
+    {% for message in app.flashes('success') %}
+        <div class="alert alert-success text-center">
+            {{ message }}
+        </div>
+    {% endfor %}
+    {% for message in app.flashes('error') %}
+        <div class="alert alert-danger text-center">
+            {{ message }}
+        </div>
+    {% endfor %}
+
+    <div class="col-10 col-lg-6">
+        <div class="login">
+            <div class="title">
+                <h2>Rejestracja</h2>
+            </div>
+                    {% form_theme registrationForm with [
+                    'bootstrap_4_layout.html.twig'
+                ] %}
+
+                            
+                {{ form_start(registrationForm, {'attr': {'id': 'formSignup'}}) }}
+                <div class="row mb-3">
+                    {{ form_row(registrationForm.email) }}
+                </div>
+                <div class="row mb-3">
+                    {{ form_row(registrationForm.plainPassword) }}
+                </div>         
+                <div id="showPassword">
+                    <input class="form-check-input mx-2" type="checkbox" id="checkbox" name="checkbox"
+                            onclick="showPassword()">
+                    <label for="checkbox">Pokaż hasło</label>
+                </div>       
+
+                <div class="button mt-2"><button type="submit" class="btn">Zarejestruj się</button></div>
+
+                <div class="signin">Masz już konto? <a href="{{ path('app_login')}}"> Zaloguj się!</a></div>
+                
+                    {{ form_end(registrationForm) }}
+            </div>
+        </div>
+
+        {% block js %}
+            <script src="{{ asset('controllers/haslo.js') }}"></script>
+            <script src="{{ asset('controllers/validationFormSignup.js') }}"></script>
+
+            <script src="https://code.jquery.com/jquery-3.6.0.min.js"
+            integrity="sha256-/xUj+3OJU5yExlq6GSYGSHk7tPXikynS7ogEvDej/m4=" crossorigin="anonymous"></script>
+            <script src="https://cdn.jsdelivr.net/npm/jquery-validation@1.19.3/dist/jquery.validate.min.js"></script>
+        {% endblock %}
+
+
+        
+
+{% endblock %}
