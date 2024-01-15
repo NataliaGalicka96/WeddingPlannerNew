@@ -1,0 +1,112 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}WeddingPlanner{% endblock %}
+
+{% block stylesheets %}
+   <link rel="stylesheet" href="{{ asset('styles/index.css') }}">
+{% endblock %}
+
+
+{% block body %}
+
+
+    <div class="wrapper">
+        <div id="carouselExampleIndicators" class="carousel slide" data-bs-ride="true">
+            <div class="carousel-indicators">
+                <button type="button" data-bs-target="#carouselExampleIndicators" data-bs-slide-to="0" class="active"
+                    aria-current="true" aria-label="Slide 1"></button>
+                <button type="button" data-bs-target="#carouselExampleIndicators" data-bs-slide-to="1"
+                    aria-label="Slide 2"></button>
+                <button type="button" data-bs-target="#carouselExampleIndicators" data-bs-slide-to="2"
+                    aria-label="Slide 3"></button>
+            </div>
+            <div class="carousel-inner">
+                <div class="carousel-item active">
+                    <img src="{{ asset('images/1new.jpg')}}" class="d-block w-100" alt="...">
+                </div>
+                <div class="carousel-item">
+                    <img src="{{ asset('images/2new.jpg')}}" class="d-block w-100" alt="...">
+                </div>
+                <div class="carousel-item">
+                    <img src="{{ asset('images/3new.jpg') }}" class="d-block w-100" alt="...">
+                </div>
+            </div>
+            <button class="carousel-control-prev" type="button" data-bs-target="#carouselExampleIndicators"
+                data-bs-slide="prev">
+                <span class="carousel-control-prev-icon" aria-hidden="true"></span>
+                <span class="visually-hidden">Previous</span>
+            </button>
+            <button class="carousel-control-next" type="button" data-bs-target="#carouselExampleIndicators"
+                data-bs-slide="next">
+                <span class="carousel-control-next-icon" aria-hidden="true"></span>
+                <span class="visually-hidden">Next</span>
+            </button>
+        </div>
+
+        <h1> Najważniejsze funkcje</h1>
+        <div class="container">
+            <div class="row justify-content-around ">
+                <div class="col-8 col-md-3 mb-5">
+                    <a class="btn" href="#" role="button">
+                        <p>Zadbaj o
+                            najmniejszy detal na Waszym Ślubie. Zrób listę zadań, która pomoże Wam w organizacji wesela.
+                        </p>
+                        Zadania ślubne
+                        <i class="fa-solid fa-list-check"></i>
+                    </a>
+                </div>
+                <div class="col-8 col-md-3 mb-5">
+                    <a class="btn" href="#" role="button">
+                        <p>Zaplanuj swoje wydatki - śledź całkowity budżet, ceny i wszelkie zaległe opłaty.</p>Budżet<i
+                            class="fa-solid fa-coins"></i>
+                    </a>
+                </div>
+                <div class="col-8 col-md-3 mb-5">
+                    <a class="btn" href="#" role="button">
+                        <p>Stwórz listę gości, zmień status gości, dodaj indywidualne notatki, ograniczenia żywieniowe.
+                        </p>
+                        Lista gości<i class="fa-solid fa-people-group"></i>
+                    </a>
+                </div>
+            </div>
+            <div class="row justify-content-around ">
+                <div class="col-8 col-md-3 mb-5">
+                    <a class="btn" href="#" role="button">
+                        <p>Trzymaj namiary do kosmetyczki, zespołu weselnego czy fotografa w jednym miejscu!</p>
+                        Kontakty<i class="fa-solid fa-phone"></i>
+                    </a>
+                </div>
+                <!--
+                <div class="col-8 col-md-3 mb-5">
+                    <a class="btn" href="Calendar.html" role="button">
+                        <p>Dodaj każde ważne wydarzenie do kalendarza. </p>Kalendarz<i class="fa-solid fa-calendar"></i>
+                    </a>
+                </div>
+                -->
+                <div class="col-8 col-md-3 mb-5">
+                    <a class="btn" href="#" role="button">
+                        <p>Użyj tego narżędzia aby stworzyć ważne notatki, przemówienia.</p>Notatki<i
+                            class="fa-solid fa-note-sticky"></i></i>
+                    </a>
+                </div>
+
+            </div>
+        </div>
+
+
+        <h1>Zarządzaj swoim ślubem. <br /> Darmowa strona do zaplanowania swojego wesela.</h1>
+        <br />
+        <div class="row">
+            <div class="col-8 col-md-3 mb-5">
+                <a class="btn" id="register" href="{{ path('app_register')}}" role="button">
+                    Utwórz konto bezpłatnie
+                </a>
+            </div>
+            <div class="col-8 col-md-3 mb-5">
+                <a class="btn" id="login" href="{{ path('app_login')}}" role="button">
+                    Zaloguj się na swoje konto
+                </a>
+            </div>
+        </div>
+    </div>
+{% endblock %}

@@ -1,0 +1,130 @@
+body {
+    background-color: #573636
+}
+
+.wrapper {
+    margin-bottom: 40px;
+}
+
+.container {
+    margin-top: 25px;
+}
+
+.carousel-item {
+    background-position: top center;
+}
+
+.btn {
+    height: 225px;
+    background-color: pink;
+    text-align: center;
+    justify-content: center;
+    display: flex;
+    flex-direction: column-reverse;
+    justify-content: center;
+    box-shadow: 10px 5px 5px rgb(173, 165, 165);
+    transition: all 0.5s ease-out;
+    border: none;
+    font-size: 18px;
+    color: #756c6e;
+
+}
+
+.btn:hover,
+.btn:focus {
+    transform: scale(1.1);
+    border: none;
+    background-color: rgba(255, 192, 203, 0.858);
+    color: #383435;
+
+}
+
+
+h1 {
+    text-align: center;
+    margin-top: 40px;
+    margin-bottom: 40px;
+    font-family: 'Dancing Script', cursive;
+}
+
+.container-fluid {
+    background-color: #e08296;
+}
+
+
+#logo {
+    width: 300px;
+}
+
+.logo {
+    margin-top: 20px;
+    display: flex;
+    justify-content: center;
+}
+
+
+.navbar {
+    background-color: #e08296;
+}
+
+.nav-link {
+    width: auto;
+    margin-left: 10px;
+    margin-right: 10px;
+    height: 50px;
+    background: #e08296;
+    font-size: 25px;
+    font-family: 'Dancing Script', cursive;
+
+}
+
+.nav-link:hover {
+
+    cursor: pointer;
+    font-size: 28px;
+
+}
+
+
+.collapse {
+    flex-direction: column;
+    flex-wrap: wrap;
+    align-content: center;
+}
+
+.navbar-expand-lg .navbar-nav .nav-link {
+    text-align: center;
+}
+
+.navbar-toggler {
+    margin: 10px 0 10px 0;
+}
+
+
+.w-100 {
+    height: auto;
+}
+
+.fa-solid {
+    margin-bottom: 15px;
+    font-size: 25px;
+
+}
+
+p {
+    margin-top: 10px;
+    font-size: 14px;
+}
+
+#register,
+#login {
+    height: 60px !important;
+    background-color: #e08296;
+    color: black;
+
+}
+
+.row {
+    justify-content: center;
+
+}
