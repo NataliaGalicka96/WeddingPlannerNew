@@ -1,0 +1,102 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}Main Page{% endblock %}
+
+{% block stylesheets %}
+   <link rel="stylesheet" href="{{ asset('css/mainPage.css') }}">
+{% endblock %}
+
+{#}
+{% form_theme form 'bootstrap_5_layout.html.twig' %}
+#}
+
+{% block body %}
+<nav class="navbar navbar-expand-lg">
+        <div class="container-fluid">
+            <button class="navbar-toggler" type="button" data-bs-toggle="collapse"
+                data-bs-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false"
+                aria-label="Toggle navigation">
+                <span class="navbar-toggler-icon"></span>
+            </button>
+            <div class="collapse navbar-collapse" id="navbarSupportedContent">
+                                <ul class="navbar-nav me-auto mb-2 mb-lg-0">
+                    <li class="nav-item">
+                        <a class="nav-link active" href="#">Strona główna</a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link active" aria-current="page" href="#">Zadania</a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link active" href="#">Budżet</a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link active" href="#">Goście</a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link active" href="#">Notatki</a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link active" href="#">Kontakty</a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link active" href="#">Ustawienia</a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link active" href="{{path('app_logout')}}">Wyloguj</a>
+                    </li>
+
+                </ul>
+
+            </div>
+        </div>
+    </nav>
+
+{#}
+    <div class="wrapper">
+
+
+        {% if dataWedding is empty %}
+
+                <div class="container">
+                <h1>Uzupełnij dane</h1>
+                {{ form_start(form) }}
+                {{ form_row(form.brideName) }}
+                {{ form_row(form.groomName) }}
+                {{ form_row(form.date) }}
+                <button type="submit" class=" btn btn-success" id="accept">Wyślij dane</button>
+                {{ form_end(form) }}
+        </div>
+        {% else %}
+        {% for data in dataWedding %}
+
+        <div>
+                <div class="row">
+                    <div class="col-8">
+                        <h1>{{ data['bride_name'] }} & {{ data['groom_name'] }}</h1>
+                        <p hidden id = "time">{{ data['date'] }}</p>
+                        <h1 style="color:#f07c22;">Do ślubu pozostało</h1>
+                        <div   id="timer">
+                            <div id="days"></div>
+                            <div id="hours"></div>
+                            <div id="minutes"></div>
+                            <div id="seconds"></div>
+                        </div>
+
+                    </div>
+                </div>
+                <div class="row">
+                    <img src={{ asset("assets/images/nowe1.png")}}>
+                </div>
+            </div>
+#
+        </div>
+ {% endfor %}
+{% endif %}
+   
+   #} 
+{% endblock %}
+{% block js %}
+    <script src="{{ asset('assets/js/timeToWedding.js') }}"></script>
+
+{% endblock %}
+
