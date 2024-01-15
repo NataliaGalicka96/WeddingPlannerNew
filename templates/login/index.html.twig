@@ -9,11 +9,11 @@
 
 {% block body %}
 
-<form method="post">
+<form action = "{{ path('app_login') }}" method = "POST">
+
+{#}
     {% if error %}
-       {#} 
-       <div class="alert alert-danger">{{ error.messageKey|trans(error.messageData, 'security') }}</div>
-        #}
+
           {% for message in app.flashes('success') %}
         <div class="alert alert-success text-center">
             {{ message }}
@@ -31,6 +31,7 @@
             You are logged in as {{ app.user.userIdentifier }}, <a href="{{ path('app_logout') }}">Logout</a>
         </div>
     {% endif %}
+    #}
 
 
 
@@ -53,10 +54,10 @@
 
           </div>
         </div>
-       
-            <input type="hidden" name="_csrf_token"
-      value="{{ csrf_token('authenticate') }}">
-       
+
+           <input type="hidden" name="_target_path" value="/" />
+
+
 
 
         <!--
@@ -72,7 +73,10 @@
           </div>
         </div>
         -->
-        <div class="button"><button type="submit" class="btn">Zaloguj się</button></div>
+
+        <div class="button">
+          <button type="submit" class="btn">Zaloguj się</button>
+        </div>
 
         <div class="signup">Nie masz jeszcze konta? <a href="{{ path('app_register') }}"> Zarejestruj się!</a></div>
 
