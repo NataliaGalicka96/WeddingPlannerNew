@@ -3,12 +3,12 @@
 {% block title %}Main Page{% endblock %}
 
 {% block stylesheets %}
-   <link rel="stylesheet" href="{{ asset('css/mainPage.css') }}">
+   <link rel="stylesheet" href="{{ asset('styles/mainPage.css') }}">
 {% endblock %}
 
-{#}
+
 {% form_theme form 'bootstrap_5_layout.html.twig' %}
-#}
+
 
 {% block body %}
 <nav class="navbar navbar-expand-lg">
@@ -51,18 +51,17 @@
         </div>
     </nav>
 
-{#}
-    <div class="wrapper">
 
+    <div class="wrapper">
 
         {% if dataWedding is empty %}
 
                 <div class="container">
                 <h1>Uzupełnij dane</h1>
                 {{ form_start(form) }}
-                {{ form_row(form.brideName) }}
-                {{ form_row(form.groomName) }}
-                {{ form_row(form.date) }}
+                {{ form_row(form.bride_name) }}
+                {{ form_row(form.groom_name) }}
+                {{ form_row(form.wedding_date) }}
                 <button type="submit" class=" btn btn-success" id="accept">Wyślij dane</button>
                 {{ form_end(form) }}
         </div>
@@ -73,7 +72,7 @@
                 <div class="row">
                     <div class="col-8">
                         <h1>{{ data['bride_name'] }} & {{ data['groom_name'] }}</h1>
-                        <p hidden id = "time">{{ data['date'] }}</p>
+                        <p hidden id = "time">{{ data['wedding_date'] }}</p> 
                         <h1 style="color:#f07c22;">Do ślubu pozostało</h1>
                         <div   id="timer">
                             <div id="days"></div>
@@ -85,18 +84,19 @@
                     </div>
                 </div>
                 <div class="row">
-                    <img src={{ asset("assets/images/nowe1.png")}}>
+                  {#}  <img src={{ asset("images/nowe1.png")}}>#}
                 </div>
             </div>
-#
+
         </div>
  {% endfor %}
 {% endif %}
    
-   #} 
+
 {% endblock %}
+
 {% block js %}
-    <script src="{{ asset('assets/js/timeToWedding.js') }}"></script>
+    <script src="{{ asset('controllers/timeToWedding.js') }}"></script>
 
 {% endblock %}
 
