@@ -28,6 +28,7 @@ class EmailVerifier
             $verifyEmailRouteName,
             $user->getId(),
             $user->getEmail()
+
         );
 
         $context = $email->getContext();
