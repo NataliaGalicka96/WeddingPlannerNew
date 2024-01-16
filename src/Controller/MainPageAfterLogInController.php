@@ -2,18 +2,25 @@
 
 namespace App\Controller;
 
+use App\Entity\User;
+use App\Entity\UserProfile;
+use App\Form\WeddingSettingsType;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Annotation\Route;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\Validator\Validator\ValidatorInterface;
+use Doctrine\ORM\EntityManagerInterface;
 
 
 class MainPageAfterLogInController extends AbstractController
 {
     #[Route('/main/page', name: 'app_main_page')]
-    public function index(): Response
-    {
+    public function index(
+        EntityManagerInterface $entityManager,
+        Request $request,
+        ValidatorInterface $validator
+    ): Response {
 
 
         if (!$this->getUser()) {
@@ -21,36 +28,38 @@ class MainPageAfterLogInController extends AbstractController
             return $this->redirectToRoute('app_wedding_planner_page');
         }
 
-
         /** 
-         * @var User $user 
-         * 
+         * @var User $user
+         * */
         $user = $this->getUser();
         if (!empty($user)) {
             $userId = $user->getId();
         }
 
-        $em = $this->getDoctrine()->getManager();
-        $dataOfWedding = $em->getRepository(WeddingSettings::class)->getDataOfWedding($userId);
-         *
+        //$em = $this->getDoctrine()->getManager();
+
+        $dataOfWedding = $entityManager->getRepository(UserProfile::class)->getDataOfWedding($userId);
+
+        //dd($dataOfWedding);
+
         $form = $this->createForm(WeddingSettingsType::class);
         $form->handleRequest($request);
 
 
         if ($form->isSubmitted() && $form->isValid()) {
             if ($this->getUser()) {
-                $weddingDetail = new WeddingSettings();
+                $weddingDetail = new UserProfile();
 
                 $weddingDetail->setUser($this->getUser());
-                $weddingDetail->setBrideName($form->get('brideName')->getData());
-                $weddingDetail->setGroomName($form->get('groomName')->getData());
-                $weddingDetail->setDate($form->get('date')->getData());
+                $weddingDetail->setBrideName($form->get('bride_name')->getData());
+                $weddingDetail->setGroomName($form->get('groom_name')->getData());
+                $weddingDetail->setWeddingDate($form->get('wedding_date')->getData());
                 $errors = $validator->validate($weddingDetail);
 
                 if (count($errors) == 0) {
 
-                    $em->persist($weddingDetail);
-                    $em->flush();
+                    $entityManager->persist($weddingDetail);
+                    $entityManager->flush();
                     $this->addFlash('success', "Ustawiono datę ślubu oraz imiona Państwa Młodych!");
                     return $this->redirectToRoute('app_main_page');
                 } else {
@@ -58,11 +67,11 @@ class MainPageAfterLogInController extends AbstractController
                 }
             }
         }
-         */
+
         return $this->render('main_page/index.html.twig', [
 
-            //'form' => $form->createView(),
-            //'dataWedding' => $dataOfWedding
+            'form' => $form->createView(),
+            'dataWedding' => $dataOfWedding
 
         ]);
     }
