@@ -44,18 +44,20 @@
         <div class="row mb-3">
           <div class="input-group">
             <i class="fa-solid fa-user"></i>
-            <input type="text" value="{{ lastUsername }}" name="username" id="inputUsername" class="form-control" autocomplete="username" required autofocus>
+            <input type="text" value="{{ lastUsername }}" name="_username" id="inputUsername" class="form-control" autocomplete="username" 
+            required autofocus>
           </div>
         </div>
         <div class="row mb-3">
           <div class="input-group">
             <i class="fa-solid fa-lock"></i>
-            <input type="password" name="password" id="inputPassword" class="form-control" autocomplete="current-password" required>
+            <input type="password" name="_password" id="inputPassword" class="form-control" autocomplete="current-password" required>
 
           </div>
         </div>
 
-           <input type="hidden" name="_target_path" value="/" />
+
+           <input type="hidden" name="_target_path" value="/main/page" />
 
 
 

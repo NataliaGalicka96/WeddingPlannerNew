@@ -2,41 +2,13 @@ body {
     background-color: #fff9f9
 }
 
-.wrapper {
-    margin-bottom: 40px;
-}
-
 .container {
     margin-top: 25px;
+    width: 50%;
 }
 
-.carousel-item {
-    background-position: top center;
-}
-
-.btn {
-    height: 225px;
-    background-color: pink;
-    text-align: center;
-    justify-content: center;
-    display: flex;
-    flex-direction: column-reverse;
-    justify-content: center;
-    box-shadow: 10px 5px 5px rgb(173, 165, 165);
-    transition: all 0.5s ease-out;
-    border: none;
-    font-size: 18px;
-    color: #756c6e;
-
-}
-
-.btn:hover,
-.btn:focus {
-    transform: scale(1.1);
-    border: none;
-    background-color: rgba(255, 192, 203, 0.858);
-    color: #383435;
-
+.wrapper {
+    margin-bottom: 100px;
 }
 
 
@@ -45,6 +17,8 @@ h1 {
     margin-top: 40px;
     margin-bottom: 40px;
     font-family: 'Dancing Script', cursive;
+    font-size: 50px;
+    color: #db4844;
 }
 
 .container-fluid {
@@ -80,6 +54,7 @@ h1 {
 
 .nav-link:hover {
 
+
     cursor: pointer;
     font-size: 28px;
 
@@ -102,7 +77,7 @@ h1 {
 
 
 .w-100 {
-    height: auto;
+    height: 50vh;
 }
 
 .fa-solid {
@@ -116,15 +91,78 @@ p {
     font-size: 14px;
 }
 
-#register,
-#login {
-    height: 60px !important;
-    background-color: #e08296;
-    color: black;
 
+.picture img {
+    width: 100%;
+}
+
+.textOnPicture {
+    position: absolute;
+    bottom: 5em;
+    left: 10em;
+}
+
+.time {
+    justify-content: space-between;
+}
+
+.col-8 {
+    margin-left: auto;
+    margin-right: auto;
+    margin-top: 50px;
+    margin-bottom: 35px;
+    text-align: center;
+}
+
+.row img {
+    width: 50%;
 }
 
 .row {
     justify-content: center;
+}
 
+input:hover,
+#input:focus,
+.form-control:focus,
+.form-select:hover,
+.form-select:focus {
+    border-color: #756c6e;
+    box-shadow: inset 0px 0px 2px 2px #ef97aa;
+}
+
+span {
+    line-height: 1;
+    padding: 20px;
+    font-size: 40px
+}
+
+#timer {
+
+    text-align: center;
+    color: white;
+    font-weight: 100;
+    display: flex;
+    align-items: baseline;
+    justify-content: center;
+}
+
+#days {
+    font-size: 50px;
+    color: #db4844;
+}
+
+#hours {
+    font-size: 50px;
+    color: #f07c22;
+}
+
+#minutes {
+    font-size: 50px;
+    color: #f6da74;
+}
+
+#seconds {
+    font-size: 25px;
+    color: #abcd58;
 }

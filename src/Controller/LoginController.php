@@ -14,11 +14,9 @@ class LoginController extends AbstractController
     #[Route('/login', name: 'app_login')]
     public function index(AuthenticationUtils $utils): Response
     {
-        /*if ($this->getUser()) {
-
-            return $this->redirectToRoute('app_wedding_planner_page');
-        }*/
-
+        if ($this->getUser()) {
+            return $this->redirectToRoute('app_main_page');
+        }
         $lastUserName = $utils->getLastUsername();
         $error = $utils->getLastAuthenticationError();
 
