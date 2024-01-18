@@ -16,6 +16,8 @@ use Symfony\Component\Routing\Annotation\Route;
 use Symfony\Contracts\Translation\TranslatorInterface;
 use SymfonyCasts\Bundle\VerifyEmail\Exception\VerifyEmailExceptionInterface;
 
+use Symfony\Component\Validator\Validator\ValidatorInterface;
+
 class RegistrationController extends AbstractController
 {
     private EmailVerifier $emailVerifier;
@@ -29,14 +31,19 @@ class RegistrationController extends AbstractController
     public function register(
         Request $request,
         UserPasswordHasherInterface $userPasswordHasher,
-        EntityManagerInterface $entityManager
+        EntityManagerInterface $entityManager,
+        ValidatorInterface $validator
     ): Response {
 
         $user = new User();
         $form = $this->createForm(RegistrationFormType::class, $user);
         $form->handleRequest($request);
 
+        $errors = [];
+
         if ($form->isSubmitted() && $form->isValid()) {
+
+            $errors = $validator->validate($user);
             // encode the plain password
             $user->setPassword(
                 $userPasswordHasher->hashPassword(
@@ -63,8 +70,11 @@ class RegistrationController extends AbstractController
             return $this->redirectToRoute('app_login');
         }
 
+
+
         return $this->render('registration/stareregister.html.twig', [
             'registrationForm' => $form->createView(),
+            'errors' => $errors,
         ]);
     }
 
