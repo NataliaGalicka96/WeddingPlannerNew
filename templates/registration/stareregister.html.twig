@@ -11,8 +11,6 @@
     {% for flash_error in app.flashes('verify_email_error') %}
         <div class="alert alert-danger" role="alert">{{ flash_error }}</div>
 {% endfor %}
-
-
     {% for message in app.flashes('success') %}
         <div class="alert alert-success text-center">
             {{ message }}
@@ -37,9 +35,11 @@
                 {{ form_start(registrationForm, {'attr': {'id': 'formSignup'}}) }}
                 <div class="row mb-3">
                     {{ form_row(registrationForm.email) }}
+                     
                 </div>
                 <div class="row mb-3">
                     {{ form_row(registrationForm.plainPassword) }}
+                    
                 </div>         
                 <div id="showPassword">
                     <input class="form-check-input mx-2" type="checkbox" id="checkbox" name="checkbox"
@@ -54,6 +54,7 @@
                     {{ form_end(registrationForm) }}
             </div>
         </div>
+
 
         {% block js %}
             <script src="{{ asset('controllers/haslo.js') }}"></script>
