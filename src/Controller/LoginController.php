@@ -5,29 +5,33 @@ namespace App\Controller;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Annotation\Route;
-
+use App\Entity\User;
 use Symfony\Component\Security\Http\Authentication\AuthenticationUtils;
-
+use Doctrine\ORM\EntityManagerInterface;
 
 class LoginController extends AbstractController
 {
     #[Route('/login', name: 'app_login')]
-    public function index(AuthenticationUtils $utils): Response
-    {
+    public function index(
+        AuthenticationUtils $utils
+    ): Response {
+
         if ($this->getUser()) {
             return $this->redirectToRoute('app_main_page');
         }
+
         $lastUserName = $utils->getLastUsername();
         $error = $utils->getLastAuthenticationError();
 
+
+
         if ($error) {
-            $this->addFlash('error', "Błędne dane, nie udało się zalogować. Spróbuj jeszcze raz!");
+            $this->addFlash('error', 'Błędne dane, nie udało się zalogować. Spróbuj jeszcze raz!');
         }
 
         return $this->render('login/index.html.twig', [
             'lastUsername' => $lastUserName,
             'error' => $error,
-
         ]);
     }
 
