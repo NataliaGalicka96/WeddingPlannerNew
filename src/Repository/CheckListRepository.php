@@ -25,7 +25,9 @@ class CheckListRepository extends ServiceEntityRepository
     {
 
         $conn = $this->getEntityManager()->getConnection();
-        $sql = "SELECT * FROM check_list
+        $sql = "SELECT cl.*, clc.name
+        FROM check_list cl
+        JOIN check_list_category clc ON clc.id = cl.check_list_category_id
         WHERE user_id = :user_id";
 
         $stmt = $conn->prepare($sql);

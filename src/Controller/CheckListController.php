@@ -9,6 +9,8 @@ use Doctrine\ORM\EntityManagerInterface;
 
 use App\Entity\CheckListCategory;
 use App\Entity\CheckList;
+use Symfony\Component\HttpFoundation\JsonResponse;
+
 
 class CheckListController extends AbstractController
 {
@@ -18,6 +20,9 @@ class CheckListController extends AbstractController
      * @var array
      */
     public $errorString = [];
+
+
+
 
     #[Route('/check/list', name: 'app_check_list')]
     public function index(
@@ -49,5 +54,33 @@ class CheckListController extends AbstractController
             'taskAssignedToUser' => $taskAssignedToUser
 
         ]);
+    }
+
+    #[Route('/check/list/switch-status/{id}', name: 'switch_status')]
+
+    public function switchStatus(
+        $id,
+        EntityManagerInterface $entityManager
+    ): Response {
+
+        $task = $entityManager->getRepository(CheckList::class)->find($id);
+
+        $task->setStatus(!$task->isStatus());
+
+        $entityManager->persist($task);
+        $entityManager->flush();
+
+        return $this->redirectToRoute('app_check_list');
+    }
+
+
+
+    #[Route('check_list/delete/{id}', name: 'task_delete')]
+    public function delete(CheckList $id, EntityManagerInterface $entityManager)
+    {
+
+        $entityManager->remove($id);
+        $entityManager->flush();
+        return $this->redirectToRoute('app_check_list');
     }
 }

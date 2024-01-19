@@ -44,7 +44,7 @@
                         <a class="nav-link active" href="#">Ustawienia</a>
                     </li>
                     <li class="nav-item">
-                        <a class="nav-link active" href="#">Wyloguj</a>
+                        <a class="nav-link active" href="{{ path('app_logout')}}">Wyloguj</a>
                     </li>
 
                 </ul>
@@ -52,6 +52,7 @@
             </div>
         </div>
     </nav>
+
  
    
     <h1>Lista zadań do wykonania</h1>
@@ -67,20 +68,26 @@
                     
                     {% for task in taskAssignedToUser %}
 
-                    {% if category['name'] == task['category_name'] %}
+                    
+
+                    {% if category['id'] == task['check_list_category_id'] %}
                     <li>
                         <div class="input-group mb-3 mt-1">
                         {#}
+                        
                             <div class="input-group-text">
                             <a href="{{path('switch_status',{'id':task["id"]})}}">  
                             <input class="form-check-input mt-0" type="checkbox" role="button" value=""
                                     aria-label="Checkbox for following text input" {% if task["status"]%}checked{% endif %}></a>
                              </div>
                              #}
-                             
+
+                            
                             <a href="{{path('switch_status',{'id':task["id"]})}}"> <span  id="task" {% if task["status"]%}class="input-group-text checked"{% else %}class="input-group-text"{% endif %} >{{task['task']}}</span></a>
                             <a onclick="return confirm('Czy na pewno chcesz usunąć to zadanie?')" href="{{path('task_delete',{'id':task.id})}}"><span class="input-group-text" id="delete"><i class="fa-solid fa-trash-can"></i></span></a>  
-                            
+                             
+
+
                         </div>
                         
                     </li>
