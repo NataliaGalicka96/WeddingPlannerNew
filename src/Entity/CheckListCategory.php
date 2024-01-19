@@ -21,9 +21,13 @@ class CheckListCategory
     #[ORM\OneToMany(mappedBy: 'checkListCategory', targetEntity: CheckList::class, orphanRemoval: true)]
     private Collection $category;
 
+    #[ORM\OneToMany(mappedBy: 'checkListCategory', targetEntity: DefaultTask::class)]
+    private Collection $taskCategory;
+
     public function __construct()
     {
         $this->category = new ArrayCollection();
+        $this->taskCategory = new ArrayCollection();
     }
 
     public function getId(): ?int
@@ -67,6 +71,36 @@ class CheckListCategory
             // set the owning side to null (unless already changed)
             if ($category->getCheckListCategory() === $this) {
                 $category->setCheckListCategory(null);
+            }
+        }
+
+        return $this;
+    }
+
+    /**
+     * @return Collection<int, DefaultTask>
+     */
+    public function getTaskCategory(): Collection
+    {
+        return $this->taskCategory;
+    }
+
+    public function addTaskCategory(DefaultTask $taskCategory): static
+    {
+        if (!$this->taskCategory->contains($taskCategory)) {
+            $this->taskCategory->add($taskCategory);
+            $taskCategory->setCheckListCategory($this);
+        }
+
+        return $this;
+    }
+
+    public function removeTaskCategory(DefaultTask $taskCategory): static
+    {
+        if ($this->taskCategory->removeElement($taskCategory)) {
+            // set the owning side to null (unless already changed)
+            if ($taskCategory->getCheckListCategory() === $this) {
+                $taskCategory->setCheckListCategory(null);
             }
         }
 

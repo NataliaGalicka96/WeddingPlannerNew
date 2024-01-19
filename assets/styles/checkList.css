@@ -1,0 +1,319 @@
+body {
+    background-color: #fff9f9
+}
+
+
+
+.wrapper {
+    margin-bottom: 200px;
+}
+
+
+h1 {
+    text-align: center;
+    margin-top: 40px;
+    margin-bottom: 40px;
+    font-family: 'Dancing Script', cursive;
+}
+
+.container-fluid {
+    background-color: #e08296;
+}
+
+
+#logo {
+    width: 300px;
+}
+
+.logo {
+    margin-top: 20px;
+    display: flex;
+    justify-content: center;
+}
+
+
+.navbar {
+    background-color: #e08296;
+}
+
+.nav-link {
+    width: auto;
+    margin-left: 10px;
+    margin-right: 10px;
+    height: 50px;
+    background: #e08296;
+    font-size: 25px;
+    font-family: 'Dancing Script', cursive;
+
+}
+
+.nav-link:hover {
+
+
+    cursor: pointer;
+    font-size: 28px;
+
+}
+
+
+.collapse {
+    flex-direction: column;
+    flex-wrap: wrap;
+    align-content: center;
+}
+
+.navbar-expand-lg .navbar-nav .nav-link {
+    text-align: center;
+}
+
+.navbar-toggler {
+    margin: 10px 0 10px 0;
+}
+
+.input-group {
+    width: 85%;
+    margin-left: auto;
+    margin-right: auto;
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+    align-content: center;
+    justify-content: space-between;
+}
+
+
+.input-group-text {
+    white-space: inherit;
+}
+
+.dropdown {
+    width: 75%;
+    margin-left: auto;
+    margin-right: auto;
+}
+
+.wrapper ul {
+    position: inherit !important;
+    transform: translate3d(0px, 10px, 0px) !important;
+    box-shadow: 10px 5px 5px rgb(173, 165, 165);
+    transition: all 0.5s ease-out;
+    margin-bottom: 200px;
+}
+
+
+.btn {
+    background-color: #e08296;
+    color: black;
+    text-align: center;
+    box-shadow: 10px 5px 5px rgb(173 165 165);
+    transition: all 0.5s ease-out;
+    border: none;
+    font-size: 18px;
+    padding-left: 20px;
+    padding-right: 20px;
+    width: 75%;
+}
+
+.btn:hover,
+.btn:focus {
+    transform: scale(1.1);
+    border: none;
+    color: #383435;
+    background-color: #e08296;
+
+}
+
+#buttonToAddNewTask {
+    width: 30% !important;
+}
+
+#addNewTask {
+    display: flex;
+    justify-content: center;
+}
+
+ul li a {
+    text-decoration: none;
+}
+
+#task.checked {
+    text-decoration-color: #e08296;
+    text-decoration: line-through;
+}
+
+/*
+.form-check-input:hover,
+.form-check-input:focus {
+    border-color: #756c6e;
+    box-shadow: inset 0px 0px 2px 2px #ef97aa;
+}
+
+
+.form-check-input:checked {
+    background-color: #ef97aa;
+    border-color: #ef97aa;
+}
+*/
+
+
+#task {
+    background-color: transparent;
+    max-width: 500px;
+}
+
+
+#delete {
+    display: inline-block;
+    margin-left: 5px;
+}
+
+.dropdown {
+    width: 90%;
+    margin-left: auto;
+    margin-right: auto;
+    display: flex;
+    justify-content: center;
+    align-content: space-around;
+    flex-direction: column;
+    flex-wrap: wrap;
+}
+
+#cancel {
+    background-color: rgb(246, 54, 54);
+    width: 25% !important;
+    margin-right: 15px;
+    font-size: 16px;
+
+}
+
+#accept {
+    background-color: rgb(61, 187, 61);
+    width: 35% !important;
+    margin-right: 10px;
+    font-size: 16px;
+}
+
+#floatingInput:hover,
+#floatingInput:focus {
+    border-color: #756c6e;
+    box-shadow: inset 0px 0px 2px 2px #ef97aa;
+    font-size: 16px;
+}
+
+@media screen and (max-width: 1000px) {
+    #task {
+        font-size: 15px;
+        max-width: 450px;
+    }
+}
+
+@media screen and (max-width: 900px) {
+    #task {
+        font-size: 15px;
+        max-width: 400px;
+    }
+}
+
+@media screen and (max-width: 800px) {
+    #task {
+        font-size: 15px;
+        max-width: 360px;
+    }
+
+    .btn {
+        font-size: 17px;
+    }
+}
+
+@media screen and (max-width: 750px) {
+    #task {
+        font-size: 15px;
+        max-width: 330px;
+    }
+}
+
+@media screen and (max-width: 700px) {
+    #task {
+        font-size: 14px;
+        max-width: 300px;
+    }
+}
+
+
+@media screen and (max-width: 650px) {
+    #task {
+        font-size: 14px;
+        max-width: 275px;
+    }
+}
+
+@media screen and (max-width: 600px) {
+    #task {
+        font-size: 14px;
+        max-width: 250px;
+    }
+
+    .btn {
+        font-size: 16px;
+    }
+}
+
+@media screen and (max-width: 550px) {
+    #task {
+        font-size: 14px;
+        max-width: 225px;
+    }
+}
+
+
+@media screen and (max-width: 500px) {
+    #task {
+        font-size: 13px;
+        max-width: 190px;
+    }
+
+    .btn {
+        font-size: 15px;
+    }
+}
+
+@media screen and (max-width: 450px) {
+    #task {
+        font-size: 12px;
+        max-width: 170px;
+    }
+}
+
+@media screen and (max-width: 400px) {
+    #task {
+        font-size: 12px;
+        max-width: 160px;
+    }
+
+    .btn {
+        font-size: 14px;
+    }
+}
+
+
+@media screen and (max-width: 390px) {
+    #task {
+        font-size: 12px;
+        max-width: 140px;
+    }
+}
+
+
+@media screen and (max-width: 340px) {
+    #task {
+        font-size: 10px;
+        max-width: 125px;
+    }
+}
+
+@media screen and (max-width: 280px) {
+    #task {
+        font-size: 10px;
+        max-width: 100px;
+    }
+}
