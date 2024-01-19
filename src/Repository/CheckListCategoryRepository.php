@@ -21,28 +21,42 @@ class CheckListCategoryRepository extends ServiceEntityRepository
         parent::__construct($registry, CheckListCategory::class);
     }
 
-//    /**
-//     * @return CheckListCategory[] Returns an array of CheckListCategory objects
-//     */
-//    public function findByExampleField($value): array
-//    {
-//        return $this->createQueryBuilder('c')
-//            ->andWhere('c.exampleField = :val')
-//            ->setParameter('val', $value)
-//            ->orderBy('c.id', 'ASC')
-//            ->setMaxResults(10)
-//            ->getQuery()
-//            ->getResult()
-//        ;
-//    }
+    public function getNameAndIdOfCategory()
+    {
+        $conn = $this->getEntityManager()->getConnection();
+        $sql = "SELECT * FROM check_list_category";
 
-//    public function findOneBySomeField($value): ?CheckListCategory
-//    {
-//        return $this->createQueryBuilder('c')
-//            ->andWhere('c.exampleField = :val')
-//            ->setParameter('val', $value)
-//            ->getQuery()
-//            ->getOneOrNullResult()
-//        ;
-//    }
+        $stmt = $conn->prepare($sql);
+        $resultSet = $stmt->executeQuery();
+
+
+        return $resultSet->fetchAllAssociative();
+    }
+
+
+
+    //    /**
+    //     * @return CheckListCategory[] Returns an array of CheckListCategory objects
+    //     */
+    //    public function findByExampleField($value): array
+    //    {
+    //        return $this->createQueryBuilder('c')
+    //            ->andWhere('c.exampleField = :val')
+    //            ->setParameter('val', $value)
+    //            ->orderBy('c.id', 'ASC')
+    //            ->setMaxResults(10)
+    //            ->getQuery()
+    //            ->getResult()
+    //        ;
+    //    }
+
+    //    public function findOneBySomeField($value): ?CheckListCategory
+    //    {
+    //        return $this->createQueryBuilder('c')
+    //            ->andWhere('c.exampleField = :val')
+    //            ->setParameter('val', $value)
+    //            ->getQuery()
+    //            ->getOneOrNullResult()
+    //        ;
+    //    }
 }

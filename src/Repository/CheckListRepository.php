@@ -21,28 +21,42 @@ class CheckListRepository extends ServiceEntityRepository
         parent::__construct($registry, CheckList::class);
     }
 
-//    /**
-//     * @return CheckList[] Returns an array of CheckList objects
-//     */
-//    public function findByExampleField($value): array
-//    {
-//        return $this->createQueryBuilder('c')
-//            ->andWhere('c.exampleField = :val')
-//            ->setParameter('val', $value)
-//            ->orderBy('c.id', 'ASC')
-//            ->setMaxResults(10)
-//            ->getQuery()
-//            ->getResult()
-//        ;
-//    }
+    public function getTaskAssignedToUser($userId)
+    {
 
-//    public function findOneBySomeField($value): ?CheckList
-//    {
-//        return $this->createQueryBuilder('c')
-//            ->andWhere('c.exampleField = :val')
-//            ->setParameter('val', $value)
-//            ->getQuery()
-//            ->getOneOrNullResult()
-//        ;
-//    }
+        $conn = $this->getEntityManager()->getConnection();
+        $sql = "SELECT * FROM check_list
+        WHERE user_id = :user_id";
+
+        $stmt = $conn->prepare($sql);
+        $resultSet = $stmt->executeQuery(['user_id' => $userId]);
+
+
+        return $resultSet->fetchAllAssociative();
+    }
+
+    //    /**
+    //     * @return CheckList[] Returns an array of CheckList objects
+    //     */
+    //    public function findByExampleField($value): array
+    //    {
+    //        return $this->createQueryBuilder('c')
+    //            ->andWhere('c.exampleField = :val')
+    //            ->setParameter('val', $value)
+    //            ->orderBy('c.id', 'ASC')
+    //            ->setMaxResults(10)
+    //            ->getQuery()
+    //            ->getResult()
+    //        ;
+    //    }
+
+    //    public function findOneBySomeField($value): ?CheckList
+    //    {
+    //        return $this->createQueryBuilder('c')
+    //            ->andWhere('c.exampleField = :val')
+    //            ->setParameter('val', $value)
+    //            ->getQuery()
+    //            ->getOneOrNullResult()
+    //        ;
+    //    }
 }

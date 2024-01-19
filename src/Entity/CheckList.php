@@ -19,6 +19,14 @@ class CheckList
     #[ORM\Column]
     private ?bool $status = null;
 
+    #[ORM\ManyToOne(inversedBy: 'tasks')]
+    #[ORM\JoinColumn(nullable: false)]
+    private ?User $user = null;
+
+    #[ORM\ManyToOne(inversedBy: 'category')]
+    #[ORM\JoinColumn(nullable: false)]
+    private ?CheckListCategory $checkListCategory = null;
+
     public function getId(): ?int
     {
         return $this->id;
@@ -44,6 +52,30 @@ class CheckList
     public function setStatus(bool $status): static
     {
         $this->status = $status;
+
+        return $this;
+    }
+
+    public function getUser(): ?User
+    {
+        return $this->user;
+    }
+
+    public function setUser(?User $user): static
+    {
+        $this->user = $user;
+
+        return $this;
+    }
+
+    public function getCheckListCategory(): ?CheckListCategory
+    {
+        return $this->checkListCategory;
+    }
+
+    public function setCheckListCategory(?CheckListCategory $checkListCategory): static
+    {
+        $this->checkListCategory = $checkListCategory;
 
         return $this;
     }
