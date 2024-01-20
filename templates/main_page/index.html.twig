@@ -24,7 +24,7 @@
                         <a class="nav-link active" href="#">Strona główna</a>
                     </li>
                     <li class="nav-item">
-                        <a class="nav-link active" aria-current="page" href="#">Zadania</a>
+                        <a class="nav-link active" aria-current="page" href="{{ path('app_check_list') }}">Zadania</a>
                     </li>
                     <li class="nav-item">
                         <a class="nav-link active" href="#">Budżet</a>
@@ -61,7 +61,7 @@
                 {{ form_row(form.bride_name) }}
                 {{ form_row(form.groom_name) }}
                 {{ form_row(form.wedding_date) }}
-                <button type="submit" class=" btn btn-success" id="accept">Wyślij dane</button>
+                <button type="submit" class=" btn btn-success" id="accept">Zapisz</button>
                 {{ form_end(form) }}
         </div>
         {% else %}

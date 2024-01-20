@@ -1,0 +1,166 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}WeddingPlanner{% endblock %}
+
+{% block stylesheets %}
+   <link rel="stylesheet" href="{{ asset('styles/checkList.css') }}">
+{% endblock %}
+
+{#
+{% block javascripts %}
+    <script src="{{ asset('assets/js/contact.js') }}"></script>
+{% endblock %}
+#}
+
+{% block body %}
+<nav class="navbar navbar-expand-lg">
+        <div class="container-fluid">
+            <button class="navbar-toggler" type="button" data-bs-toggle="collapse"
+                data-bs-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false"
+                aria-label="Toggle navigation">
+                <span class="navbar-toggler-icon"></span>
+            </button>
+            <div class="collapse navbar-collapse" id="navbarSupportedContent">
+                                <ul class="navbar-nav me-auto mb-2 mb-lg-0">
+                    <li class="nav-item">
+                        <a class="nav-link active" href="{{ path('app_main_page')}}">Strona główna</a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link active" aria-current="page" href="{{ path('app_check_list')}}">Zadania</a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link active" href="#">Budżet</a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link active" href="#">Goście</a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link active" href="#">Notatki</a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link active" href="#">Kontakty</a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link active" href="#">Ustawienia</a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link active" href="{{ path('app_logout')}}">Wyloguj</a>
+                    </li>
+
+                </ul>
+
+            </div>
+        </div>
+    </nav>
+
+ 
+   
+    <h1>Lista zadań do wykonania</h1>
+    <div class="wrapper">
+        <form>
+        {% for category in idOfCategory %}
+            <div class="dropdown mb-4 mt-1">
+                <button class="btn dropdown-toggle" type="button" id="dropdownMenuButton1" data-bs-toggle="dropdown"
+                    aria-expanded="false">
+                    {{ category['name'] }}
+                </button>
+                <ul class="dropdown-menu" aria-labelledby="dropdownMenuButton1">
+                    
+                    {% for task in taskAssignedToUser %}
+
+                    
+
+                    {% if category['id'] == task['check_list_category_id'] %}
+                    <li>
+                        <div class="input-group mb-3 mt-1">
+                        {#}
+                        
+                            <div class="input-group-text">
+                            <a href="{{path('switch_status',{'id':task["id"]})}}">  
+                            <input class="form-check-input mt-0" type="checkbox" role="button" value=""
+                                    aria-label="Checkbox for following text input" {% if task["status"]%}checked{% endif %}></a>
+                             </div>
+                             #}
+
+                            
+                            <a href="{{path('switch_status',{'id':task["id"]})}}"> <span  id="task" {% if task["status"]%}class="input-group-text checked"{% else %}class="input-group-text"{% endif %} >{{task['task']}}</span></a>
+                            <a onclick="return confirm('Czy na pewno chcesz usunąć to zadanie?')" href="{{path('task_delete',{'id':task.id})}}"><span class="input-group-text" id="delete"><i class="fa-solid fa-trash-can"></i></span></a>  
+                             
+
+
+                        </div>
+                        
+                    </li>
+    
+                    {% endif %}
+                    
+                    {% endfor %}
+
+
+
+                </ul>
+            </div>
+            {% endfor %}
+            <div id="addNewTask" class="mt-5">
+                        <button class="btn" type="button" id="buttonToAddNewTask" data-bs-toggle="modal"
+                            data-bs-target="#addNewTaskModal">Dodaj zadanie</button>
+                </div>
+        </form>
+    </div>
+
+    
+
+
+
+    <!--Modal window to add new task-->
+
+
+    <!-- Modal -->
+    <div class="modal fade" id="addNewTaskModal" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+        <div class="modal-dialog">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title" id="exampleModalLabel">Dodaj zadanie do wykonania</h5>
+                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                </div>
+                <div class="modal-body">
+                <form action="{{ path("create_new_task") }}" method="POST" id="checkListForm">
+                        <div class="mb-3">
+                        
+                            <select class="form-control" name="category" id="floatingInput"
+                                    required>
+                                    <option value="" disabled selected hidden>Wybierz kategorię</option>
+                                    {% for category in idOfCategory %}
+                                    <option name="category" value = {{ category ['id']}}>{{ category['name'] }}</option>
+                                    {% endfor %}
+                            </select>
+                        </div>
+                        <div class="text-danger text-center mt-1 error categoryError" style="list-style-type:none;">
+
+                        </div>
+                        <div class="form-floating mb-3">
+                            <input name = "title" type="text" class="form-control" id="floatingInput" placeholder="..." >
+                            <label for="floatingInput">Nowe zadanie</label>
+                        </div>
+                        <div class="text-danger text-center mt-1 error titleError" style="list-style-type:none;">
+
+                        </div>
+
+
+
+                    
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-danger" id="cancel" data-bs-dismiss="modal">Anuluj</button>
+                    <button type="submit" class=" btn btn-success" id="accept">Zapisz</button>
+                </div>
+                </form>
+            </div>
+        </div>
+    </div>
+
+
+        {% block js %}
+         {#}   <script src="{{ asset('assets/js/checkListValidation.js') }}"></script> #}
+        {% endblock %}
+{% endblock %}
