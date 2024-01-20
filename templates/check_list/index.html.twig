@@ -108,7 +108,7 @@
         </form>
     </div>
 
-    {#}
+    
 
 
 
@@ -131,7 +131,7 @@
                                     required>
                                     <option value="" disabled selected hidden>Wybierz kategorię</option>
                                     {% for category in idOfCategory %}
-                                    <option name="category">{{ category['name'] }}</option>
+                                    <option name="category" value = {{ category ['id']}}>{{ category['name'] }}</option>
                                     {% endfor %}
                             </select>
                         </div>
@@ -159,7 +159,7 @@
         </div>
     </div>
 
-#}
+
         {% block js %}
          {#}   <script src="{{ asset('assets/js/checkListValidation.js') }}"></script> #}
         {% endblock %}

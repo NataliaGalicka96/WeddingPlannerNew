@@ -9,7 +9,10 @@ use Doctrine\ORM\EntityManagerInterface;
 
 use App\Entity\CheckListCategory;
 use App\Entity\CheckList;
-use Symfony\Component\HttpFoundation\JsonResponse;
+use Symfony\Component\Validator\Validator\ValidatorInterface;
+
+use Symfony\Component\HttpFoundation\Request;
+
 
 
 class CheckListController extends AbstractController
@@ -81,6 +84,50 @@ class CheckListController extends AbstractController
 
         $entityManager->remove($id);
         $entityManager->flush();
+        $this->addFlash('success', "Zadanie zostało pomyślnie usunięte");
         return $this->redirectToRoute('app_check_list');
+    }
+
+    #[Route('/check/list/create', name: 'create_new_task', methods: 'POST')]
+    public function createNewTask(Request $request, ValidatorInterface $validator, EntityManagerInterface $entityManager)
+    {
+
+        $categoryId = trim($request->request->get('category'));
+
+        $categoryObject = $entityManager->getRepository(CheckListCategory::class)->getIdOfCategory($categoryId);
+        $title = trim($request->request->get('title'));
+
+
+
+
+        if (empty($title))
+            return $this->redirectToRoute('app_check_list');
+
+        //$entityManager = $this->getDoctrine()->getManager();
+
+        //dd($categoryId);
+        //dd($categoryObject);
+
+
+
+        $task = new CheckList();
+        $task->setCheckListCategory($categoryObject);
+        $task->setTask($title);
+        $task->setUser($this->getUser());
+        $task->setStatus(0);
+
+
+        $errors = $validator->validate($task);
+
+        if (count($errors) == 0) {
+
+            $entityManager->persist($task);
+            $entityManager->flush();
+            $this->addFlash('success', "Dodano nowe zadanie!");
+            return $this->redirectToRoute('app_check_list');
+        } else {
+            $this->addFlash('error', "Nie udało się dodać zadania!");
+            return $this->redirectToRoute('app_check_list');
+        }
     }
 }
