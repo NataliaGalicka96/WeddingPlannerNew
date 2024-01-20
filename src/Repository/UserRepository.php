@@ -54,6 +54,21 @@ class UserRepository extends ServiceEntityRepository implements PasswordUpgrader
         return $resultSet->fetchAllAssociative();
     }
 
+    public function copy_default_expenses()
+    {
+        $conn = $this->getEntityManager()->getConnection();
+
+        $sql = 'INSERT INTO expenses (user_id, budget_category_id, expense)
+        SELECT u.id, de.budget_category_id, de.name
+        FROM user u, default_expenses de
+        WHERE u.id = (SELECT max(id) FROM user)';
+
+        $stmt = $conn->prepare($sql);
+        $resultSet = $stmt->executeQuery();
+
+        return $resultSet->fetchAllAssociative();
+    }
+
     //    /**
     //     * @return User[] Returns an array of User objects
     //     */

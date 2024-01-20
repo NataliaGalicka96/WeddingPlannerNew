@@ -22,9 +22,13 @@ class BudgetCategory
     #[ORM\OneToMany(mappedBy: 'budgetCategory', targetEntity: DefaultExpenses::class)]
     private Collection $expense;
 
+    #[ORM\OneToMany(mappedBy: 'budgetCategory', targetEntity: Expenses::class)]
+    private Collection $expenses;
+
     public function __construct()
     {
         $this->expense = new ArrayCollection();
+        $this->expenses = new ArrayCollection();
     }
 
     public function getId(): ?int
@@ -74,5 +78,13 @@ class BudgetCategory
         }
 
         return $this;
+    }
+
+    /**
+     * @return Collection<int, Expenses>
+     */
+    public function getExpenses(): Collection
+    {
+        return $this->expenses;
     }
 }

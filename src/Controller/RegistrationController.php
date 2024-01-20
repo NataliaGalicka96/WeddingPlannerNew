@@ -56,6 +56,7 @@ class RegistrationController extends AbstractController
             $entityManager->flush();
 
             $entityManager->getRepository(User::class)->copy_default_task();
+            $entityManager->getRepository(User::class)->copy_default_expenses();
 
             // generate a signed url and email it to the user
             $this->emailVerifier->sendEmailConfirmation(
