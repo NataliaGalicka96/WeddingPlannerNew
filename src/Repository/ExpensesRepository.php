@@ -21,6 +21,110 @@ class ExpensesRepository extends ServiceEntityRepository
         parent::__construct($registry, Expenses::class);
     }
 
+    public function getAllExpensesCategory($userId)
+    {
+        $conn = $this->getEntityManager()->getConnection();
+
+        $sql = "SELECT bc.name , e.budget_category_id as category_id
+        FROM expenses e
+        LEFT JOIN budget_category bc ON e.budget_category_id = bc.id
+        WHERE e.user_id = :user_id
+        GROUP BY e.budget_category_id";
+
+        $stmt = $conn->prepare($sql);
+        $resultSet = $stmt->executeQuery(['user_id' => $userId]);
+
+
+        return $resultSet->fetchAllAssociative();
+    }
+
+    public function getDetailsOfExpense($userId)
+    {
+        $conn = $this->getEntityManager()->getConnection();
+
+        $sql = "SELECT * FROM expenses
+        WHERE user_id = :user_id";
+
+        $stmt = $conn->prepare($sql);
+        $resultSet = $stmt->executeQuery(['user_id' => $userId]);
+
+
+        return $resultSet->fetchAllAssociative();
+    }
+
+
+
+
+    public function getAlreadyPaidAndTotalSumGroupByCategory($userId)
+    {
+
+        $conn = $this->getEntityManager()->getConnection();
+
+        $sql = "SELECT budget_category_id, SUM(COALESCE(already_paid, 0)) as total_paid, SUM(COALESCE(price, 0)) as price
+        FROM expenses
+        WHERE user_id = :user_id
+        GROUP BY budget_category_id";
+
+        $stmt = $conn->prepare($sql);
+        $resultSet = $stmt->executeQuery(['user_id' => $userId]);
+
+
+        return $resultSet->fetchAllAssociative();
+    }
+
+    public function updatePrice($userId, $id, $price)
+    {
+        $conn = $this->getEntityManager()->getConnection();
+
+        $sql = "UPDATE expenses
+        SET price = :price
+        WHERE user_id = :user_id AND id =:id";
+
+        $stmt = $conn->prepare($sql);
+        $resultSet = $stmt->executeQuery([
+            'user_id' => $userId,
+            'price' => $price,
+            'id' => $id
+        ]);
+
+
+        return $resultSet->fetchAllAssociative();
+    }
+
+    public function updateAlreadyPaid($userId, $id, $paid)
+    {
+        $conn = $this->getEntityManager()->getConnection();
+
+        $sql = "UPDATE expenses
+        SET already_paid = :paid
+        WHERE user_id = :user_id AND id =:id";
+
+        $stmt = $conn->prepare($sql);
+        $resultSet = $stmt->executeQuery([
+            'user_id' => $userId,
+            'paid' => $paid,
+            'id' => $id
+        ]);
+
+
+        return $resultSet->fetchAllAssociative();
+    }
+
+    public function sumOfAllExpenses($userId)
+    {
+        $conn = $this->getEntityManager()->getConnection();
+        $sql = "SELECT SUM(already_paid) as total_paid FROM expenses
+        WHERE user_id = :user_id";
+
+        $stmt = $conn->prepare($sql);
+        $resultSet = $stmt->executeQuery(['user_id' => $userId]);
+
+
+        return $resultSet->fetchAllAssociative();
+    }
+
+
+
     //    /**
     //     * @return Expenses[] Returns an array of Expenses objects
     //     */

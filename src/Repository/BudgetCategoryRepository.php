@@ -21,28 +21,37 @@ class BudgetCategoryRepository extends ServiceEntityRepository
         parent::__construct($registry, BudgetCategory::class);
     }
 
-//    /**
-//     * @return BudgetCategory[] Returns an array of BudgetCategory objects
-//     */
-//    public function findByExampleField($value): array
-//    {
-//        return $this->createQueryBuilder('b')
-//            ->andWhere('b.exampleField = :val')
-//            ->setParameter('val', $value)
-//            ->orderBy('b.id', 'ASC')
-//            ->setMaxResults(10)
-//            ->getQuery()
-//            ->getResult()
-//        ;
-//    }
+    public function getIdOfCategory($categoryName): ?BudgetCategory
+    {
+        return $this->createQueryBuilder('b')
+            ->andWhere('b.id = :val')
+            ->setParameter('val', $categoryName)
+            ->getQuery()
+            ->getOneOrNullResult();
+    }
 
-//    public function findOneBySomeField($value): ?BudgetCategory
-//    {
-//        return $this->createQueryBuilder('b')
-//            ->andWhere('b.exampleField = :val')
-//            ->setParameter('val', $value)
-//            ->getQuery()
-//            ->getOneOrNullResult()
-//        ;
-//    }
+    //    /**
+    //     * @return BudgetCategory[] Returns an array of BudgetCategory objects
+    //     */
+    //    public function findByExampleField($value): array
+    //    {
+    //        return $this->createQueryBuilder('b')
+    //            ->andWhere('b.exampleField = :val')
+    //            ->setParameter('val', $value)
+    //            ->orderBy('b.id', 'ASC')
+    //            ->setMaxResults(10)
+    //            ->getQuery()
+    //            ->getResult()
+    //        ;
+    //    }
+
+    //    public function findOneBySomeField($value): ?BudgetCategory
+    //    {
+    //        return $this->createQueryBuilder('b')
+    //            ->andWhere('b.exampleField = :val')
+    //            ->setParameter('val', $value)
+    //            ->getQuery()
+    //            ->getOneOrNullResult()
+    //        ;
+    //    }
 }

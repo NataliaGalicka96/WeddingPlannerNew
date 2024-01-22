@@ -1,20 +1,291 @@
 {% extends 'base.html.twig' %}
 
-{% block title %}Hello ExpensesController!{% endblock %}
+{% block title %}WeddingPlanner{% endblock %}
+
+{% block stylesheets %}
+   <link rel="stylesheet" href="{{ asset('styles/budget.css') }}">
+{% endblock %}
+
+{% block javascripts %}
+
+{% endblock %}
 
 {% block body %}
-<style>
-    .example-wrapper { margin: 1em auto; max-width: 800px; width: 95%; font: 18px/1.5 sans-serif; }
-    .example-wrapper code { background: #F5F5F5; padding: 2px 6px; }
-</style>
 
-<div class="example-wrapper">
-    <h1>Hello {{ controller_name }}! ✅</h1>
+<nav class="navbar navbar-expand-lg">
+        <div class="container-fluid">
+            <button class="navbar-toggler" type="button" data-bs-toggle="collapse"
+                data-bs-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false"
+                aria-label="Toggle navigation">
+                <span class="navbar-toggler-icon"></span>
+            </button>
+            <div class="collapse navbar-collapse" id="navbarSupportedContent">
+                <ul class="navbar-nav me-auto mb-2 mb-lg-0">
+                    <li class="nav-item">
+                        <a class="nav-link active" href="{{ path('app_main_page')}}">Strona główna</a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link active" aria-current="page" href="{{ path('app_check_list')}}">Zadania</a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link active" href="{{ path('app_expenses')}}">Budżet</a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link active" href="#">Goście</a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link active" href="#">Notatki</a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link active" href="#">Kontakty</a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link active" href="#">Ustawienia</a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link active" href="{{path('app_logout')}}">Wyloguj</a>
+                    </li>
+                </ul>
 
-    This friendly message is coming from:
-    <ul>
-        <li>Your controller at <code><a href="{{ 'C:/xampp/htdocs/WeddingPlannerNew/src/Controller/ExpensesController.php'|file_link(0) }}">src/Controller/ExpensesController.php</a></code></li>
-        <li>Your template at <code><a href="{{ 'C:/xampp/htdocs/WeddingPlannerNew/templates/expenses/index.html.twig'|file_link(0) }}">templates/expenses/index.html.twig</a></code></li>
-    </ul>
-</div>
+            </div>
+        </div>
+    </nav>
+
+    <h1>Rozplanuj swój budżet</h1>
+
+
+    <div class="container">
+    <div class="row">
+        <form action="{{ path("set_budget") }}" method="POST">
+
+            <div class="input-group mt-3" id="budget">
+                <span class="input-group-text">Budżet</span>
+                <input id="amount" class="form-control" type="number" step="0.01" min="0"
+                    aria-label="default input example" name="budget" placeholder="Podaj budżet" required {% for data in dataOfWedding %}{% if data['budget'] != 0 %}value={{ data['budget'] }}{% endif %}{% endfor %}>
+                <span class="input-group-text">PLN</span>
+            </div>
+            
+        </form>
+        </div>
+
+        <div class="row">
+        <form action="{{ path("set_budget") }}" method="POST">
+       
+            {% for data in dataOfWedding %}
+          {#}
+            <div class="input-group mt-3" id="budget">
+                <span class="input-group-text">Budżet</span>
+                <input id="amount" class="form-control" type="number" step="0.01" min="0"
+                    aria-label="default input example" name="budget" placeholder="Podaj budżet" required value={{ price['budget'] }}>
+                <span class="input-group-text">PLN</span>
+            </div>
+            
+        </form>
+        </div>
+    #}
+        <div class="row mt-3">
+            <div class="summary">
+                <table id="summary">
+                    <thead>
+                        <tr>
+                            <td scope="col">Budżet</td>
+                            <td scope="col">Wydano</td>
+                            <td scope="col">Pozostało do wydania</td>
+                        </tr>
+
+                    </thead>
+                    <tbody>
+                        <tr>
+                            <td data-label="Budżet" id="Budget">{% if data['budget'] != 0 %} {{ data['budget'] }} zł  {% endif %} </td>
+                            {% for sum in sumOfAllExpenses %}
+                            <td data-label="Zapłacono" id="paid">{% if sum['total_paid'] != 0 %} {{ sum['total_paid'] }} zł {% endif %}</td>
+                            <td data-label="Pozostało do wydania" id="toSpend"></td>
+                            {% endfor %}
+                        </tr>
+                    </tbody>
+                </table>
+            </div>
+                
+                <div class="alert mt-3" role="alert" id="comment">
+                    
+                </div>
+
+           
+        </div>
+        {% endfor %}
+        
+
+        <div class="podcategory">
+            <h1>Szczegóły wydatków</h1>   
+                <div class="wrapper">
+                    <form>
+                        {% for category in allExpensesCategory %}
+                        <div class="dropdown mb-4 mt-1">
+                            <button class="btn dropdown-toggle" type="button" id="dropdownMenuButton1" data-bs-toggle="dropdown"
+                                aria-expanded="false">
+                                {{category["name"]}}
+                            </button>
+                            <ul class="dropdown-menu" aria-labelledby="dropdownMenuButton1">
+                            <div style="overflow-x:auto;">
+                                <table>
+                                    <thead>
+                                        <tr>
+                                            <td scope="col">Wydatek</td>
+                                            <td scope="col">Cena</td>
+                                            <td scope="col">Zapłacono</td>
+                                            <td scope="col">Pozostało do zapłaty</td>
+                                        </tr>
+
+                                    </thead>
+                                    <tbody>
+                                    
+                                    {% for detail in allExpenses %}
+                                        {% if category['category_id'] == detail['budget_category_id'] %}
+                                                
+                                            <tr>
+                                                <td data-label="Wydatek">{{detail['expense']}}</td>
+
+                                                <form action="{{ path("update_price",{'id':detail["id"]}) }}" method="POST" id="addPriceForm">
+                                                <td data-label="Cena"><input id="price" class="form-control" type="number" step="0.01" min="0"
+                                                aria-label="default input example" style="border: none; text-align:center;" value="{{detail['price']}}" name="priceOfPodcategory"></td>
+                                                </form>
+                                                <span class="text-danger text-center mt-1 error updatePriceError" style="list-style-type:none;">
+
+                                                 </span>
+
+                                                <form action="{{ path("update_alreadypay",{'id':detail["id"]}) }}" method="POST" id="addAlreadyPaidForm">
+                                                <td data-label="Zapłacono"><input id="alreadySpend" class="form-control" type="number" step="0.01" min="0"
+                                                aria-label="default input example" style="border: none; text-align:center;" value="{{detail['already_paid']}}" name="alreadyPayOfPodcategory"></td>
+                        
+                                                </form>
+
+                                                <td data-label="Pozostało do zapłacenia" id="leftToPay"></td>
+                                            </tr>
+                                                
+                                                
+                                        {% endif %} {% endfor %}
+                                        <form>
+                                        <tr>
+                                        {% for sum in alreadyPaidAndTotalSumGroupByCategory %}
+                                        {% if category["category_id"] == sum['budget_category_id'] %}
+                                            <td data-label="Wydatek" style="font-weight: bold;">Podsumowanie</td>   
+                                            <td data-label="Cena" style="font-weight: bold;" id="price">{{ sum['price'] }}</td>
+                                            <td data-label="Zapłacono" style="font-weight: bold;" id="alreadySpend">{{ sum['total_paid'] }}</td>
+                                            <td data-label="Pozostało do zapłacenia" id="left" style="font-weight: bold;"></td>
+                                        </tr>
+                                        {% endif %}
+                                        {% endfor %}
+
+                                    
+                                    </tbody>
+                                </table>
+                                </div>
+                            </ul>
+                        </div>
+                        {% endfor %}
+                        <div id="addNewExpense" class="mt-5">
+                            <button class="btn" type="button" id="buttonToAddNewExpense" data-bs-toggle="modal"
+                            data-bs-target="#addNewExpenseModal">Dodaj wydatek</button>
+                        </div>
+                    </form> 
+                </div>
+                        
+        </div>
+    </div>
+
+
+    <!--Modal window to add new task-->
+
+    <!-- Modal -->
+    <div class="modal fade" id="addNewCategory" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+        <div class="modal-dialog">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title" id="exampleModalLabel">Dodaj nową kategorię wydatków</h5>
+                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                </div>
+                <div class="modal-body">
+                    <form>
+                        <div class="form-floating mb-3">
+                            <input type="text" class="form-control" id="floatingInput" placeholder="...">
+                            <label for="floatingInput">Nowe kategoria</label>
+                        </div>
+
+
+
+                    </form>
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-danger" id="cancel" data-bs-dismiss="modal">Anuluj</button>
+                    <button type="button" class=" btn btn-success" id="accept">Zapisz</button>
+                </div>
+            </div>
+        </div>
+    </div>
+
+
+    <!---->
+
+    <div class="modal fade" id="addNewExpenseModal" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+        <div class="modal-dialog">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title" id="exampleModalLabel">Dodaj nowy wydatek</h5>
+                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                </div>
+                <div class="modal-body">
+                    <form action="{{ path("add_new_expense") }}" method="POST" id="expenseForm">
+                        <div class="mb-3">
+                            <select class="form-control" name="category" id="floatingInput"
+                                    required>
+                                    <option value="" disabled selected hidden>Wybierz kategorię</option>
+                                    {% for category in allExpensesCategory %}
+                                    <option name="category" value = {{ category['category_id'] }}>{{ category['name'] }}</option>
+                                    {% endfor %}
+                            </select>
+                        </div>
+                        <div class="text-danger text-center mt-1 error categoryError" style="list-style-type:none;">
+
+                        </div>
+                        <div class="form-floating mb-3">
+                            <input type="text" class="form-control" id="floatingInput" placeholder="..." name="expenseName">
+                            <label for="floatingInput">Nowy wydatek</label>
+                        </div>
+                        <div class="text-danger text-center mt-1 error expenseNameError" style="list-style-type:none;">
+
+                        </div>
+                        <div class="form-floating mb-3">
+                            <input type="number" step="0.01" min="0" class="form-control" id="floatingInput" name="price"
+                                placeholder="...">
+                            <label for="floatingInput">Cena</label>
+                        </div>
+                        <div class="text-danger text-center mt-1 error priceError" style="list-style-type:none;">
+
+                        </div>
+                        <div class="form-floating mb-3">
+                            <input type="number" step="0.01" min="0" class="form-control" id="floatingInput" name="alreadyPaid"
+                                placeholder="...">
+                            <label for="floatingInput">Zapłacono</label>
+                        </div>
+                        <div class="text-danger text-center mt-1 error alreadyPaidError" style="list-style-type:none;">
+
+                        </div>
+                    
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-danger" id="cancel" data-bs-dismiss="modal">Anuluj</button>
+                    <button type="submit" class=" btn btn-success" id="accept">Zapisz</button>
+                </div>
+                </form>
+            </div>
+        </div>
+    </div>
+
+    
+{% endblock %}
+{% block js %}
+    <script src="{{ asset('controllers/budget.js') }}"></script>
+    <script src="{{ asset('controllers/validationExpense.js') }}"></script>
+    
+
 {% endblock %}
