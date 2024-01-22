@@ -35,11 +35,11 @@ class CheckListCategoryRepository extends ServiceEntityRepository
 
 
 
-    public function getIdOfCategory($categoryName): ?CheckListCategory
+    public function getIdOfCategory($categoryId): ?CheckListCategory
     {
         return $this->createQueryBuilder('c')
             ->andWhere('c.id = :val')
-            ->setParameter('val', $categoryName)
+            ->setParameter('val', $categoryId)
             ->getQuery()
             ->getOneOrNullResult();
     }

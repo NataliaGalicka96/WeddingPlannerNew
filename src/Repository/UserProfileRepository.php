@@ -24,7 +24,7 @@ class UserProfileRepository extends ServiceEntityRepository
     public function getDataOfWedding($userId)
     {
         $conn = $this->getEntityManager()->getConnection();
-        $sql = "SELECT * FROM user_profile
+        $sql = "SELECT *, COALESCE(budget,0) AS budget FROM user_profile
         WHERE user_id = :user_id";
 
         $stmt = $conn->prepare($sql);
@@ -33,6 +33,29 @@ class UserProfileRepository extends ServiceEntityRepository
 
         return $resultSet->fetchAllAssociative();
     }
+
+    public function setUserBudget($userId, $budget)
+    {
+
+        $conn = $this->getEntityManager()->getConnection();
+
+        $sql = "UPDATE user_profile
+        SET budget = :budget
+        WHERE user_id =:userId";
+
+        $stmt = $conn->prepare($sql);
+        $resultSet = $stmt->executeQuery([
+            'userId' => $userId,
+            'budget' => $budget
+        ]);
+
+
+        return $resultSet->fetchAllAssociative();
+    }
+
+
+
+
 
     //    /**
     //     * @return UserProfile[] Returns an array of UserProfile objects
