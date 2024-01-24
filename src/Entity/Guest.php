@@ -37,6 +37,9 @@ class Guest
     #[ORM\Column(nullable: true)]
     private ?bool $specialDiet = null;
 
+    #[ORM\ManyToOne(inversedBy: 'guests')]
+    private ?User $user = null;
+
     public function getId(): ?int
     {
         return $this->id;
@@ -134,6 +137,18 @@ class Guest
     public function setSpecialDiet(?bool $specialDiet): static
     {
         $this->specialDiet = $specialDiet;
+
+        return $this;
+    }
+
+    public function getUser(): ?User
+    {
+        return $this->user;
+    }
+
+    public function setUser(?User $user): static
+    {
+        $this->user = $user;
 
         return $this;
     }

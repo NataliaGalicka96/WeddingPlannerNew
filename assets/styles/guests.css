@@ -1,0 +1,261 @@
+body {
+    background-color: #fff9f9
+}
+
+
+.btn {
+
+    background-color: #e08296;
+    color: black;
+    text-align: center;
+    display: flex;
+
+    justify-content: center;
+    box-shadow: 10px 5px 5px rgb(173 165 165);
+    transition: all 0.5s ease-out;
+    border: none;
+    font-size: 18px;
+    padding-left: 20px;
+    padding-right: 20px;
+}
+
+.btn:hover,
+.btn:focus {
+    transform: scale(1.1);
+    border: none;
+    color: #383435;
+    background-color: #e08296;
+
+}
+
+h1 {
+    text-align: center;
+    margin-top: 40px;
+    margin-bottom: 40px;
+    font-family: 'Dancing Script', cursive;
+}
+
+.container-fluid {
+    background-color: #e08296;
+}
+
+
+#logo {
+    width: 300px;
+}
+
+.logo {
+    margin-top: 20px;
+    display: flex;
+    justify-content: center;
+}
+
+
+.navbar {
+    background-color: #e08296;
+}
+
+.nav-link {
+    width: auto;
+    margin-left: 10px;
+    margin-right: 10px;
+    height: 50px;
+    background: #e08296;
+    font-size: 25px;
+    font-family: 'Dancing Script', cursive;
+
+}
+
+.nav-link:hover {
+    cursor: pointer;
+    font-size: 28px;
+}
+
+
+.collapse {
+    flex-direction: column;
+    flex-wrap: wrap;
+    align-content: center;
+}
+
+.navbar-expand-lg .navbar-nav .nav-link {
+    text-align: center;
+}
+
+.navbar-toggler {
+    margin: 10px 0 10px 0;
+}
+
+.container {
+    width: 100%;
+    margin-left: auto;
+    margin-right: auto;
+    text-align: center;
+    margin-bottom: 50px;
+}
+
+thead tr {
+    border-bottom: 2px solid #ddd;
+}
+
+tr {
+    border-bottom: 1px solid #ddd;
+}
+
+table {
+    border-collapse: collapse;
+}
+
+td {
+    vertical-align: middle;
+}
+
+table {
+    border: 1px solid #ccc;
+    border-collapse: collapse;
+    margin: 0;
+    padding: 0;
+    width: 100%;
+    table-layout: fixed;
+}
+
+table caption {
+    font-size: 1.5em;
+    margin: .5em 0 .75em;
+}
+
+table tr {
+    background-color: #f8f8f8;
+    border: 1px solid #ddd;
+    padding: .35em;
+}
+
+table th,
+table td {
+    padding: .625em;
+    text-align: center;
+}
+
+table th {
+    font-size: .85em;
+    letter-spacing: .1em;
+    text-transform: uppercase;
+}
+
+.form-check-input:hover,
+.form-check-input:focus {
+    border-color: #756c6e;
+    box-shadow: inset 0px 0px 2px 2px #ef97aa;
+}
+
+.form-check-input:checked {
+    background-color: #ef97aa;
+    border-color: #ef97aa;
+}
+
+#guests,
+#summary {
+
+    box-shadow: 10px 5px 5px rgb(173, 165, 165);
+    transition: all 0.5s ease-out;
+
+}
+
+#summary tr {
+    background-color: #f9c6d1;
+}
+
+#cancel {
+    background-color: rgb(246, 54, 54);
+    width: 25% !important;
+    margin-right: 15px;
+    font-size: 16px;
+
+
+}
+
+#accept {
+    background-color: rgb(61, 187, 61);
+    width: 35% !important;
+    margin-right: 10px;
+    font-size: 16px;
+
+}
+
+#floatingInput:hover,
+#floatingInput:focus {
+    border-color: #756c6e;
+    box-shadow: inset 0px 0px 2px 2px #ef97aa;
+    font-size: 16px;
+
+}
+
+
+@media screen and (max-width: 1030px) {
+
+    .container {
+        width: 60%;
+    }
+
+    table {
+        border: 0;
+        box-shadow: none;
+        transition: none;
+    }
+
+    #guests,
+    #summary {
+        box-shadow: none;
+        transition: none;
+    }
+
+    #summary tr {
+        background-color: #f9c6d1;
+    }
+
+    table caption {
+        font-size: 1.3em;
+    }
+
+    table thead {
+        border: none;
+        clip: rect(0 0 0 0);
+        height: 1px;
+        margin: -1px;
+        overflow: hidden;
+        padding: 0;
+        position: absolute;
+        width: 1px;
+    }
+
+    table tr {
+        border-bottom: 3px solid #ddd;
+        display: block;
+        margin-bottom: .625em;
+        box-shadow: 10px 5px 5px rgb(173, 165, 165);
+        transition: all 0.5s ease-out;
+
+    }
+
+    table td {
+        border-bottom: 1px solid #ddd;
+        display: block;
+        font-size: .8em;
+        text-align: right;
+    }
+
+    table td::before {
+        /*
+      * aria-label has no advantage, it won't be read inside a table
+      content: attr(aria-label);
+      */
+        content: attr(data-label);
+        float: left;
+        font-weight: bold;
+        text-transform: uppercase;
+    }
+
+    table td:last-child {
+        border-bottom: 0;
+    }
+}
