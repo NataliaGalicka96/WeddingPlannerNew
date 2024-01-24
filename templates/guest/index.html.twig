@@ -1,0 +1,173 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}WeddingPlanner{% endblock %}
+
+{% block stylesheets %}
+   <link rel="stylesheet" href="{{ asset('styles/guests.css') }}">
+{% endblock %}
+
+{% form_theme guestform 'bootstrap_5_layout.html.twig' %}
+
+{% block body %}
+<nav class="navbar navbar-expand-lg">
+        <div class="container-fluid">
+            <button class="navbar-toggler" type="button" data-bs-toggle="collapse"
+                data-bs-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false"
+                aria-label="Toggle navigation">
+                <span class="navbar-toggler-icon"></span>
+            </button>
+            <div class="collapse navbar-collapse" id="navbarSupportedContent">
+                                <ul class="navbar-nav me-auto mb-2 mb-lg-0">
+                    <li class="nav-item">
+                        <a class="nav-link active" href="{{ path('app_main_page')}}">Strona główna</a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link active" aria-current="page" href="{{ path('app_check_list')}}">Zadania</a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link active" href="{{ path('app_expenses')}}">Budżet</a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link active" href="{{ path('app_guest')}}">Goście</a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link active" href="#">Notatki</a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link active" href="#">Kontakty</a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link active" href="#">Ustawienia</a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link active" href="{{  path('app_logout')}}">Wyloguj</a>
+                    </li>
+
+                </ul>
+            </div>
+        </div>
+    </nav>
+
+    <h1>Lista gości</h1>
+
+
+    <div class="container">
+        <div class="row">
+
+            <div class="col-8 col-md-3 mb-5">
+                <a class="btn" id="addPerson" href="#" role="button" data-bs-toggle="modal"
+                    data-bs-target="#addNewGuest">
+                    Dodaj gościa
+                </a>
+            </div>
+        </div>
+        {% if guests %}
+            <table id="guests">
+                <thead>
+                    <tr>
+                        <th scope="col">Imię i nazwisko</th>
+                        <th scope="col">Potwierdzone</th>
+                        <th scope="col">Nocleg</th>
+                        <th scope="col">Transport</th>
+                        <th scope="col">Osoba dorosła</th>
+                        <th scope="col">Dziecko &lt; 3 lata</th>
+                        <th scope="col">Dziecko 3-12 lat</th>
+                        <th scope="col">Specjalna dieta</th>
+                    </tr>
+                </thead>
+                <tbody>
+                
+                    {% for guest in guests %}
+                        
+                    <tr>
+                        <td data-label="Imię i nazwisko">{{ guest["name"] }}</td>
+                        <td data-label="Potwierdzone"><input class="form-check-input mt-1" type="checkbox" value="" {% if guest["is_confirmed"] == 1 %}checked{% endif %}>
+                        </td>
+                        <td data-label="Nocleg"><input class="form-check-input mt-1" type="checkbox" value="" {% if guest["is_accommodation"] == 1 %}checked{% endif %}></td>
+                        <td data-label="Transport"><input class="form-check-input mt-1" type="checkbox" value="" {% if guest["transport"] == 1 %}checked{% endif %}></td>
+                        <td data-label="Osoba dorosła"><input class="form-check-input mt-1" type="checkbox" value="" {% if guest["is_adult"] == 1 %}checked{% endif %}>
+                        </td>
+                        <td data-label="Dziecko &lt; 3 lata"><input class="form-check-input mt-1" type="checkbox"
+                                value="" {% if guest["is_child_under_three_years"] == 1 %}checked{% endif %}></td>
+                        <td data-label="Dziecko 3-12 lat"><input class="form-check-input mt-1" type="checkbox" value="" {% if guest["is_child_between_three_and_twelve"] == 1 %}checked{% endif %}>
+                        </td>
+                        <td data-label="Specjalna dieta"><input class="form-check-input mt-1" type="checkbox" value="" {% if guest["special_diet"] == 1 %}checked{% endif %}>
+                        </td>
+                    </tr>
+                        
+                    {% endfor %}
+                    {% endif %}
+                </tbody>
+            </table>
+
+
+        <h1>Podsumowanie</h1>
+
+        <table class="mt-5" id="summary">
+            <thead>
+                <tr>
+                    <th scope="col">Łączna liczba gości</th>
+                    <th scope="col">Liczba dorosłych</th>
+                    <th scope="col">Liczba dzieci 3-12 lat</th>
+                    <th scope="col">Liczba dzieci &lt; 3 lata</th>
+                    <th scope="col">Liczba potrzebnych noclegów</th>
+                    <th scope="col">Liczba osób potrzebujących transport</th>
+                    <th scopse="col">Specjalna dieta</th>
+                </tr>
+            </thead>
+            <tbody>
+                <tr>
+                {% for finalList in summary %}
+                    <td data-label="Łączna liczba gości">{{ finalList['confirmed'] }}</td>
+                    <td data-label="Liczba dorosłych">{{ finalList['adult'] }}
+                    </td>
+                    <td data-label="Liczba dzieci 3-12 lat">{{ finalList['childOverThree'] }}</td>
+                    <td data-label="Liczba dzieci &lt; 3 lata">{{ finalList['childUnderThree'] }}</td>
+                    <td data-label="Liczba potrzebnych noclegów">{{ finalList['accommodation'] }}</td>
+                    <td data-label="Liczba osób potrzebujących transport">{{ finalList['transport'] }}</td>
+                    <td data-label="Specjalna dieta">{{ finalList['Diet'] }}</td>
+                {% endfor %}
+                </tr>
+        </table>
+    </div>
+
+
+    <!-- Modal -->
+    <div class="modal fade" id="addNewGuest" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+        <div class="modal-dialog">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title" id="exampleModalLabel">Dodaj nowego gościa</h5>
+                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                </div>
+                
+                <div class="modal-body">
+                {{ form_start(guestform)}}
+                    {{ form_row(guestform.name) }}  
+                    <span class="text-danger text-center mt-1 error guestError" style="list-style-type:none;">
+
+                    </span>
+                    {{ form_row(guestform.isConfirmed) }}  
+                    {{ form_row(guestform.isAccommodation) }}  
+                    {{ form_row(guestform.transport) }}  
+                    {{ form_row(guestform.isAdult) }}  
+                    {{ form_row(guestform.isChildUnderThreeYears) }}  
+                    {{ form_row(guestform.isChildBetweenThreeAndTwelve) }}  
+                    {{ form_row(guestform.specialDiet) }}  
+
+                </div>
+                
+                <div class="modal-footer">
+                    <button type="button" class="btn" id="cancel" data-bs-dismiss="modal">Anuluj</button>
+                    <button type="submit" class=" btn" id="accept">Zapisz</button>
+                </div>
+                {{ form_end(guestform) }}
+            </div>
+        </div>
+    </div>
+{% endblock %}
+{% block js %}
+    <script src="{{ asset('controllers/guestValidation.js') }}"></script>
+ 
+
+{% endblock %}
