@@ -6,8 +6,6 @@ use App\Repository\NoteRepository;
 use Doctrine\ORM\Mapping as ORM;
 
 use Symfony\Component\Validator\Constraints as Assert;
-use Symfony\Component\Validator\Constraints\NotBlank;
-use Symfony\Component\Validator\Constraints\Type;
 
 
 #[ORM\Entity(repositoryClass: NoteRepository::class)]
@@ -18,9 +16,23 @@ class Note
     #[ORM\Column]
     private ?int $id = null;
 
+    #[Assert\NotBlank(message: 'To pole jest wymagane.')]
+    #[Assert\Length(
+        min: 2,
+        max: 50,
+        minMessage: 'Your first name must be at least {{ limit }} characters long',
+        maxMessage: 'Your first name cannot be longer than {{ limit }} characters',
+    )]
     #[ORM\Column(length: 255)]
     private ?string $title = null;
 
+    #[Assert\NotBlank(message: 'To pole jest wymagane.')]
+    #[Assert\Length(
+        min: 10,
+        max: 400,
+        minMessage: 'Your first name must be at least {{ limit }} characters long',
+        maxMessage: 'Your first name cannot be longer than {{ limit }} characters',
+    )]
     #[ORM\Column(length: 255)]
     private ?string $note = null;
 
