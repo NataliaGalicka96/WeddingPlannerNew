@@ -1,20 +1,162 @@
 {% extends 'base.html.twig' %}
 
-{% block title %}Hello ContactController!{% endblock %}
+{% block title %}WeddingPlanner{% endblock %}
+
+{% block stylesheets %}
+   <link rel="stylesheet" href="{{ asset('styles/contact.css') }}">
+{% endblock %}
+
+{% form_theme formContact 'bootstrap_5_layout.html.twig' %}
 
 {% block body %}
-<style>
-    .example-wrapper { margin: 1em auto; max-width: 800px; width: 95%; font: 18px/1.5 sans-serif; }
-    .example-wrapper code { background: #F5F5F5; padding: 2px 6px; }
-</style>
+<nav class="navbar navbar-expand-lg">
+        <div class="container-fluid">
+            <button class="navbar-toggler" type="button" data-bs-toggle="collapse"
+                data-bs-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false"
+                aria-label="Toggle navigation">
+                <span class="navbar-toggler-icon"></span>
+            </button>
+            <div class="collapse navbar-collapse" id="navbarSupportedContent">
+                                <ul class="navbar-nav me-auto mb-2 mb-lg-0">
+                    <li class="nav-item">
+                        <a class="nav-link active" href="{{ path('app_main_page')}}">Strona główna</a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link active" aria-current="page" href="{{ path('app_check_list')}}">Zadania</a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link active" href="{{ path('app_expenses')}}">Budżet</a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link active" href="{{ path('app_guest')}}">Goście</a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link active" href="{{ path('app_note')}}">Notatki</a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link active" href="{{ path('app_contact')}}">Kontakty</a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link active" href="#">Ustawienia</a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link active" href="{{  path('app_logout')}}">Wyloguj</a>
+                    </li>
 
-<div class="example-wrapper">
-    <h1>Hello {{ controller_name }}! ✅</h1>
+                </ul>
 
-    This friendly message is coming from:
-    <ul>
-        <li>Your controller at <code><a href="{{ 'C:/xampp/htdocs/WeddingPlannerNew/src/Controller/ContactController.php'|file_link(0) }}">src/Controller/ContactController.php</a></code></li>
-        <li>Your template at <code><a href="{{ 'C:/xampp/htdocs/WeddingPlannerNew/templates/contact/index.html.twig'|file_link(0) }}">templates/contact/index.html.twig</a></code></li>
-    </ul>
-</div>
+            </div>
+        </div>
+    </nav>
+
+    <h1>Kontakty</h1>
+    <div class="wrapper">
+        <div class="row">
+            <div class="col-8 col-sm-5 mb-3">
+                <button class="btn" data-bs-toggle="modal" data-bs-target="#addNewContact"> Dodaj kontakt</button>
+            </div>
+
+            <div class=" col-8 col-sm-5 mb-3"><!--
+                <form class="d-flex">
+                    <input class="form-control me-2" type="search" placeholder="Wyszukaj..." aria-label="Search">
+                    <button class="btn btn-outline-success" type="submit">Szukaj</button>
+                </form>-->
+            </div>
+        </div>
+
+        <div class="container mt-5">
+        {% if contacts is not empty %}
+            <table id="contact">
+                <thead>
+                    <tr>
+                        <th scope="col">Nazwa kontaktu</th>
+                        <th scope="col">Adres</th>
+                        <th scope="col">E-mail</th>
+                        <th scope="col">Telefon</th>
+                    </tr>
+                </thead>
+                <tbody>
+                {% for contact in contacts %}
+                    <tr>
+                        <td data-label="Imię i nazwisko">{{ contact["name"] }}</td>
+                        <td data-label="Adres">ul. {{ contact["street"] }} {{ contact['home_number'] }}, {{ contact['postalcode'] }} {{ contact["city"] }}</td>
+                        <td data-label="E-mail">{{ contact["email"] }}</td>
+                        <td data-label="Telefon">{{ contact["phone_number"] }} </td>
+                        <td><a onclick="return confirm('Czy na pewno chcesz usunąć to zadanie?')" href="{{path('contact_delete',{'id': contact.id})}}"><span class="input-group-text" id="delete"><i class="fa-solid fa-trash-can"></i></span></a><!--<button type="submit" data-bs-toggle="modal" data-bs-target="#editContact"><i class="fa-solid fa-pen-to-square mx-3"></i></button>-->  </td>
+
+                    </tr>
+                    {% endfor %}
+                    
+                </tbody>
+            </table>
+        {% endif %}
+
+        </div>
+    </div>
+                    
+    <!-- Modal -->
+    <div class="modal fade" id="addNewContact" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+        <div class="modal-dialog">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title" id="exampleModalLabel">Dodaj nowy kontakt</h5>
+                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                </div>
+
+
+                
+                <div class="modal-body">
+                {{ form_start(formContact) }}
+                    {{ form_row(formContact.name) }}
+                    {{ form_row(formContact.email) }}
+                    {{ form_row(formContact.phoneNumber) }}
+                    {{ form_row(formContact.street) }}
+                    {{ form_row(formContact.homeNumber) }}
+                    {{ form_row(formContact.city) }}
+                    {{ form_row(formContact.postalcode) }}
+
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn" id="cancel" data-bs-dismiss="modal">Anuluj</button>
+                    <button type="submit" class=" btn " id="accept">Zapisz</button>
+                </div>
+                 {{ form_end(formContact) }}
+                
+            </div>
+        </div>
+    </div>
+
+ {#}
+    <div class="modal fade" id="editContact" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+        <div class="modal-dialog">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title" id="exampleModalLabel">Edycja kontaktu</h5>
+                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                </div>
+
+
+                
+                <div class="modal-body">
+                {{ form_start(formContact) }}
+                    {{ form_row(formContact.name) }}
+                    {{ form_row(formContact.email) }}
+                    {{ form_row(formContact.phoneNumber) }}
+                    {{ form_row(formContact.street) }}
+                    {{ form_row(formContact.homeNumber) }}
+                    {{ form_row(formContact.city) }}
+                    {{ form_row(formContact.postalcode) }}
+
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-danger" id="cancel" data-bs-dismiss="modal">Close</button>
+                    <button type="submit" class=" btn btn-success" id="accept">Save changes</button>
+                </div>
+                 {{ form_end(formContact) }}
+                
+            </div>
+        </div>
+    </div>
+    #}
 {% endblock %}
+
