@@ -37,8 +37,6 @@ class SettingsController extends AbstractController
 
         $form = $this->createForm(WeddingSettingsType::class);
 
-
-
         return $this->render('settings/index.html.twig', [
             'dataWedding' => $dataWedding,
             'email' => $email,
