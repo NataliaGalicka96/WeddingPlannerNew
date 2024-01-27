@@ -116,44 +116,6 @@
     </div>
 </div>
 
-{#}
-
-<!--Modal window-->
-<div class="modal fade" id="editNameModal" data-bs-backdrop="static" data-bs-keyboard="false" tabindex="-1"
-    aria-labelledby="staticBackdropLabel" aria-hidden="true">
-    <div class="modal-dialog">
-        <div class="modal-content">
-            <div class="modal-header">
-                <h5 class="modal-title" id="staticBackdropLabel">Edycja nazwy użytkownika</h5>
-                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
-            </div>
-            <div class="modal-body">
-                <form method="post" action="{{ path("update_username") }}" id="formUsername">
-                    <div class="row mb-3">
-
-                        <div class="input-group justify-self-center">
-                            <label for="username" class="form-label">Nazwa użytkownika</label>
-                            <input id="username" class="form-control" type="text" name="username"
-                                placeholder={{username}} required>
-                        </div>
-
-                    </div>
-
-                    <ul class="text-danger text-center mt-1 error nameError" id="error" style="list-style-type:none;">
-
-                    </ul>
-
-            </div>
-            <div class="modal-footer">
-                <button type="button" class="btn btn-danger" id="cancel" data-bs-dismiss="modal">Anuluj</button>
-                    <button type="submit" class=" btn btn-success" id="accept">Zapisz</button>
-            </div>
-            </form>
-        </div>
-    </div>
-</div>
-
-
 
 
 
@@ -168,15 +130,17 @@
             </div>
             <div class="modal-body">
 
-            
-                <form method="post" action="{{ path("update_email") }}"  id="formEmail">
+            {% for data in dataWedding %}
+                <form method="post" action="{{ path("update_email",{'id':data['user_id']}) }}"  id="formEmail">
                     <div class=" row mb-3">
                         <div class="input-group">
                             <label for="email" class="form-label">Adres email</label>
                             <input id="email" class="form-control" type="email" name="email"
                                 placeholder={{ email }} required>
                         </div>
+                    {% endfor %}
                     </div>
+                   
                     <ul class="text-danger text-center mt-1 error emailError" style="list-style-type:none;">
 
 
@@ -203,7 +167,8 @@
                 <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
             </div>
             <div class="modal-body">
-                <form method="post" action="{{ path("update_password") }}" id="formPassword">
+            {% for data in dataWedding %}
+                <form method="post" action="{{ path("update_password",{'id':data['user_id']}) }}"" id="formPassword">
 
                     <div class=" row mb-3">
                         <div class="input-group">
@@ -211,6 +176,7 @@
                             <input id="password" type="password" class="form-control" name="password"
                                 placeholder="••••••••" required>
                         </div>
+                        {% endfor %}
                     </div>
 
                     <ul class="text-danger text-center mt-1 error passwordError" style="list-style-type:none;">
@@ -324,7 +290,7 @@
                         <div class="input-group justify-self-center">
                             <label for="username" class="form-label">Data ślubu</label>
                             <input id="username" class="form-control" type="datetime-local" name="date"
-                                placeholder={{ data['date']}} required>
+                                placeholder={{ data['wedding_date']}} required>
                         </div>
                         {% endfor %}
 
@@ -344,5 +310,5 @@
     </div>
 </div>
 
-#}
+
 {% endblock %}
