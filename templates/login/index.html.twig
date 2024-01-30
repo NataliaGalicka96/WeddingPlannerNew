@@ -11,7 +11,7 @@
 
 <form action = "{{ path('app_login') }}" method = "POST">
 
-{#}
+{
     {% if error %}
 
           {% for message in app.flashes('success') %}
@@ -26,16 +26,9 @@
     {% endfor %}
     {% endif %}
 
-    {% if app.user %}
-        <div class="mb-3">
-            You are logged in as {{ app.user.userIdentifier }}, <a href="{{ path('app_logout') }}">Logout</a>
-        </div>
+    {% if error %}
+                    <div class="alert alert-danger">{{ error.messageKey|trans(error.messageData, 'security') }}</div>
     {% endif %}
-    #}
-
-
-
-
     <div class="col-10 col-lg-6">
     <div class="login">
       <div class="title">
@@ -55,26 +48,25 @@
 
           </div>
         </div>
-
-
-           <input type="hidden" name="_target_path" value="/main/page" />
+        <input type="hidden" name="_target_path" value="/main/page" />
             
     
 
 
-        <!--
+        
         <div class="row mb-3 form-check">
           <div class="pass">
             <div class="input-group">
-              <input type="checkbox" class="form-check-input me-2" id="remember" name="remember_me" 
-                checked="checked">
-              <label class="form-check-label" for="remember">Zapamiętaj mnie</label>
+              <input type="checkbox" class="form-check-input me-2" id="remember_me" name="_remember_me" checked>
+              <label class="form-check-label" for="remember_me">Zapamiętaj mnie</label>
             </div>
-
+            <input type="hidden" name="_csrf_token"
+                    value="{{ csrf_token('authenticate') }}"
+                >
             <a class="pass" href="/password/forgot">Zapomniałeś hasła?</a>
           </div>
         </div>
-        -->
+        
 
         <div class="button">
           <button type="submit" class="btn">Zaloguj się</button>

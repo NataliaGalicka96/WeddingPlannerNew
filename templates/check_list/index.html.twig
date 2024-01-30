@@ -6,11 +6,11 @@
    <link rel="stylesheet" href="{{ asset('styles/checkList.css') }}">
 {% endblock %}
 
-{#
+
 {% block javascripts %}
-    <script src="{{ asset('assets/js/contact.js') }}"></script>
+    <script src="{{ asset('controllers/contact.js') }}"></script>
 {% endblock %}
-#}
+
 
 {% block body %}
 <nav class="navbar navbar-expand-lg">
@@ -161,6 +161,6 @@
 
 
         {% block js %}
-         {#}   <script src="{{ asset('assets/js/checkListValidation.js') }}"></script> #}
+        <script src="{{ asset('controllers/checkListValidation.js') }}"></script> #}
         {% endblock %}
 {% endblock %}

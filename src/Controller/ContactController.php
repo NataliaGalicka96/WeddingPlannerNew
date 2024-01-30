@@ -18,7 +18,7 @@ class ContactController extends AbstractController
     {
         if (!$this->getUser()) {
             $this->addFlash('error', "Zaloguj się aby mieć dostęp do tej strony!");
-            return $this->redirectToRoute('app_index');
+            return $this->redirectToRoute('app_wedding_planner_page');
         }
 
         /** 
