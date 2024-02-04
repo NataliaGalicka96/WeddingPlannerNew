@@ -1,0 +1,14 @@
+<h1>Witaj,</h1>
+
+<p>Aby zmienić swoją hasło, kliknij w poniższy link:</p>
+
+<a href="{{ url('app_reset_password', {token: resetToken.token}) }}">{{ url('app_reset_password', {token: resetToken.token}) }}</a>
+
+<p> Link wygaśnie za 1 godzinę. </p>
+
+{# <p>This link will expire in {{ resetToken.expirationMessageKey|trans(resetToken.expirationMessageData, 'ResetPasswordBundle') }}.</p>
+#}
+<p>    
+    Pozdrawiamy,
+    Zespół WeddingPlanner
+</p>

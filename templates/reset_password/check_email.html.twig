@@ -1,0 +1,29 @@
+{% extends 'base.html.twig' %}
+
+{% block stylesheets %}
+   <link rel="stylesheet" href="{{ asset('styles/login.css') }}">
+{% endblock %}
+
+{% block title %}Adres e-mail do zmiany hasła{% endblock %}
+
+{% block body %}
+
+<div class="col-10 col-lg-6">
+        <div class="login">
+        
+            <div class="row mb-3">
+           <p>
+        Jeśli istnieje konto pasujące do podanego adresu e-mail, zostanie wysłana wiadomość e-mail,
+        za pomocą której możesz zmienić hasło do aplikacji. 
+        Link do zmiany hasła wygaśnie za 1 godzinę.
+        {#
+        This link will expire in {{ resetToken.expirationMessageKey|trans(resetToken.expirationMessageData, 'ResetPasswordBundle') }}.
+    #}
+    </p>
+    <p>Jeśli nie otrzymałeś e-maila, sprawdź folder "Spam" lub <a href="{{ path('app_forgot_password_request') }}">spróbuj ponownie</a>.
+
+            </div>
+        </div>
+    </div>
+    
+    {% endblock %}
