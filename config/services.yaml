@@ -6,6 +6,8 @@
 parameters:
 
 services:
+    Symfony\Component\Mailer\Transport\TransportInterface: '@symfony.mailer.transport.sync'
+
     # default configuration for services in *this* file
     _defaults:
         autowire: true      # Automatically injects dependencies in your services.

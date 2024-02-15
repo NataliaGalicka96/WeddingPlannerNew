@@ -140,7 +140,6 @@ class SettingsController extends AbstractController
 
         $settings = $entityManager->getRepository(UserProfile::class)->find($id);
 
-        var_dump($newDate);
 
         $settings->setWeddingDate($newDateTime);
 

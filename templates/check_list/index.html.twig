@@ -41,7 +41,7 @@
                         <a class="nav-link active" href="{{ path('app_contact')}}">Kontakty</a>
                     </li>
                     <li class="nav-item">
-                        <a class="nav-link active" href="#">Ustawienia</a>
+                        <a class="nav-link active" href="{{ path('app_settings')}}">Ustawienia</a>
                     </li>
                     <li class="nav-item">
                         <a class="nav-link active" href="{{ path('app_logout')}}">Wyloguj</a>
@@ -161,6 +161,17 @@
 
 
         {% block js %}
-        <script src="{{ asset('controllers/checkListValidation.js') }}"></script> #}
+        <script src="{{ asset('controllers/checkListValidation.js') }}"></script> 
+        <script>
+                // Funkcja do ustawiania stanu rozwinięcia listy w Local Storage
+            function setDropdownState(categoryId, expanded) {
+            localStorage.setItem(`dropdown_state_${categoryId}`, expanded ? 'true' : 'false');
+            }
+
+            // Funkcja do pobierania stanu rozwinięcia listy z Local Storage
+            function getDropdownState(categoryId) {
+            return localStorage.getItem(`dropdown_state_${categoryId}`) === 'true' ? 'true' : 'false';
+            }
+        </script>
         {% endblock %}
 {% endblock %}
