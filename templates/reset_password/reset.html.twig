@@ -1,0 +1,28 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}Resetuj hasło{% endblock %}
+
+{% block stylesheets %}
+   <link rel="stylesheet" href="{{ asset('styles/login.css') }}">
+{% endblock %}
+
+
+{% block body %}
+
+    <div class="col-10 col-lg-6">
+        <div class="login">
+        <div class="title">
+                <h2>Zmiana hasła</h2>
+        </div>
+            <div class="row mb-3">
+            {{ form_start(resetForm) }}
+                {{ form_row(resetForm.plainPassword) }}
+
+                <div class="button">
+          <button type="submit" class="btn">Zmień hasło</button>
+        </div>
+                {{ form_end(resetForm) }}   
+            </div>
+        </div>
+    </div>
+{% endblock %}
