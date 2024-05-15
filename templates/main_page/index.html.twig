@@ -54,39 +54,35 @@
     <div class="wrapper">
 
         {% if dataWedding is empty %}
-
-                <div class="container">
-                <h1>Uzupełnij dane</h1>
-                {{ form_start(form) }}
-                {{ form_row(form.bride_name) }}
-                {{ form_row(form.groom_name) }}
-                {{ form_row(form.wedding_date) }}
-                <button type="submit" class=" btn btn-success" id="accept">Zapisz</button>
-                {{ form_end(form) }}
+            <div class="container">
+            <h1>Uzupełnij dane</h1>
+            {{ form_start(form) }}
+            {{ form_row(form.bride_name) }}
+            {{ form_row(form.groom_name) }}
+            {{ form_row(form.wedding_date) }}
+            <button type="submit" class=" btn btn-success" id="accept">Zapisz</button>
+            {{ form_end(form) }}
         </div>
         {% else %}
         {% for data in dataWedding %}
-
         <div>
-                <div class="row">
-                    <div class="col-8">
+            <div class="row">
+                <div class="col-8">
                         <h1>{{ data['bride_name'] }} & {{ data['groom_name'] }}</h1>
                         <p hidden id = "time">{{ data['wedding_date'] }}</p> 
-                        <h1 style="color:#f07c22;">Do ślubu pozostało</h1>
-                        <div   id="timer">
-                            <div id="days"></div>
-                            <div id="hours"></div>
-                            <div id="minutes"></div>
-                            <div id="seconds"></div>
+                        <h1 style="color:#f07c22;" id="weddingHeader"></h1>
+                        <div id="timer">
+                            <div id="days" class="timer-item"></div>
+                            <div id="hours" class="timer-item"></div>
+                            <div id="minutes" class="timer-item"></div>
+                            <div id="seconds" class="timer-item"></div>
                         </div>
-
                     </div>
                 </div>
                 <div class="row">
                   {#}  <img src={{ asset("images/nowe1.png")}}>#}
                 </div>
             </div>
-
         </div>
  {% endfor %}
 {% endif %}
@@ -96,6 +92,5 @@
 
 {% block js %}
     <script src="{{ asset('controllers/timeToWedding.js') }}"></script>
-
 {% endblock %}
 
