@@ -46,6 +46,7 @@ class SettingsController extends AbstractController
         ]);
     }
 
+    /*
     #[Route('/settings/email/{id}', name: 'update_email', methods: 'POST')]
     public function updateEmail(Request $request, EntityManagerInterface $entityManager,  $id)
     {
@@ -62,7 +63,7 @@ class SettingsController extends AbstractController
         $entityManager->flush();
 
         return $this->redirectToRoute('app_settings');
-    }
+    }*/
 
     #[Route('/settings/password/{id}', name: 'update_password', methods: 'POST')]
     public function updatePassword(Request $request, EntityManagerInterface $entityManager,  $id)
