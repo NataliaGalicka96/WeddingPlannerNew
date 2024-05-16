@@ -67,11 +67,13 @@
                     <tr>
                         <th scope="col">Imię i nazwisko</th>
                         <th scope="col">Potwierdzone</th>
+                        <th scope="col">Osoba dorosła</th>
+                        <th scope="col">Dziecko 3-12 lat</th>
+                        <th scope="col">Dziecko &lt; 3 lata</th>
+                        
                         <th scope="col">Nocleg</th>
                         <th scope="col">Transport</th>
-                        <th scope="col">Osoba dorosła</th>
-                        <th scope="col">Dziecko &lt; 3 lata</th>
-                        <th scope="col">Dziecko 3-12 lat</th>
+                        
                         <th scope="col">Specjalna dieta</th>
                     </tr>
                 </thead>
@@ -81,17 +83,34 @@
                         
                     <tr>
                         <td data-label="Imię i nazwisko">{{ guest["name"] }}</td>
-                        <td data-label="Potwierdzone"><input class="form-check-input mt-1" type="checkbox" value="" {% if guest["is_confirmed"] == 1 %}checked{% endif %}>
+                        <td data-label="Potwierdzone">
+                            <input class="form-check-input   mt-1 confirmedClass" type="checkbox" role="button"
+                                    value="{{ guest.id }}" {% if guest.is_confirmed %}checked{% endif %}>
                         </td>
-                        <td data-label="Nocleg"><input class="form-check-input mt-1" type="checkbox" value="" {% if guest["is_accommodation"] == 1 %}checked{% endif %}></td>
-                        <td data-label="Transport"><input class="form-check-input mt-1" type="checkbox" value="" {% if guest["transport"] == 1 %}checked{% endif %}></td>
-                        <td data-label="Osoba dorosła"><input class="form-check-input mt-1" type="checkbox" value="" {% if guest["is_adult"] == 1 %}checked{% endif %}>
+                        <td data-label="Osoba dorosła">
+                            <input class="form-check-input mt-1 adultClass" type="checkbox" role="button"
+                            value="{{ guest.id }}" {% if guest.is_adult %}checked{% endif %}>
                         </td>
-                        <td data-label="Dziecko &lt; 3 lata"><input class="form-check-input mt-1" type="checkbox"
-                                value="" {% if guest["is_child_under_three_years"] == 1 %}checked{% endif %}></td>
-                        <td data-label="Dziecko 3-12 lat"><input class="form-check-input mt-1" type="checkbox" value="" {% if guest["is_child_between_three_and_twelve"] == 1 %}checked{% endif %}>
+                        <td data-label="Dziecko 3-12 lat">
+                            <input class="form-check-input mt-1 between3_12_Class" type="checkbox" role="button"
+                            value="{{ guest.id }}" {% if guest.is_child_between_three_and_twelve %}checked{% endif %}>
                         </td>
-                        <td data-label="Specjalna dieta"><input class="form-check-input mt-1" type="checkbox" value="" {% if guest["special_diet"] == 1 %}checked{% endif %}>
+                        <td data-label="Dziecko &lt; 3 lata">
+                            <input class="form-check-input mt-1 underThreeYearsClass" type="checkbox" role="button"
+                             value="{{ guest.id }}" {% if guest.is_child_under_three_years %}checked{% endif %}>
+                        </td>
+                        <td data-label="Nocleg">
+                            <input class="form-check-input mt-1 accClass" type="checkbox" role="button"
+                                    value="{{ guest.id }}" {% if guest.is_accommodation %}checked{% endif %}>
+                        </td>
+                        <td data-label="Transport">
+                            <input class="form-check-input mt-1 transportClass" type="checkbox" role="button"
+                            value="{{ guest.id }}" {% if guest.transport %}checked{% endif %}>
+                        </td>
+                        
+                        <td data-label="Specjalna dieta">
+                            <input class="form-check-input mt-1 dietClass" type="checkbox" role="button"
+                            value="{{ guest.id }}" {% if guest.special_diet %}checked{% endif %}>
                         </td>
                     </tr>
                         
@@ -118,14 +137,13 @@
             <tbody>
                 <tr>
                 {% for finalList in summary %}
-                    <td data-label="Łączna liczba gości">{{ finalList['confirmed'] }}</td>
-                    <td data-label="Liczba dorosłych">{{ finalList['adult'] }}
-                    </td>
-                    <td data-label="Liczba dzieci 3-12 lat">{{ finalList['childOverThree'] }}</td>
-                    <td data-label="Liczba dzieci &lt; 3 lata">{{ finalList['childUnderThree'] }}</td>
-                    <td data-label="Liczba potrzebnych noclegów">{{ finalList['accommodation'] }}</td>
-                    <td data-label="Liczba osób potrzebujących transport">{{ finalList['transport'] }}</td>
-                    <td data-label="Specjalna dieta">{{ finalList['Diet'] }}</td>
+                    <td data-label="Łączna liczba gości" id="summaryConfirmed">{{ finalList['confirmed'] }}</td>
+                    <td data-label="Liczba dorosłych" id="summaryAdult">{{ finalList['adult'] }}</td>
+                    <td data-label="Liczba dzieci 3-12 lat" id="summaryChild">{{ finalList['childOverThree'] }}</td>
+                    <td data-label="Liczba dzieci &lt; 3 lata" id="summaryBaby">{{ finalList['childUnderThree'] }}</td>
+                    <td data-label="Liczba potrzebnych noclegów" id="summaryAcc">{{ finalList['accommodation'] }}</td>
+                    <td data-label="Liczba osób potrzebujących transport" id="summaryTransport">{{ finalList['transport'] }}</td>
+                    <td data-label="Specjalna dieta" id="summaryDiet">{{ finalList['Diet'] }}</td>
                 {% endfor %}
                 </tr>
         </table>
@@ -143,9 +161,9 @@
                 
                 <div class="modal-body">
                 {{ form_start(guestform)}}
+            
                     {{ form_row(guestform.name) }}  
                     <span class="text-danger text-center mt-1 error guestError" style="list-style-type:none;">
-
                     </span>
                     {{ form_row(guestform.isConfirmed) }}  
                     {{ form_row(guestform.isAccommodation) }}  
@@ -168,6 +186,126 @@
 {% endblock %}
 {% block js %}
     <script src="{{ asset('controllers/guestValidation.js') }}"></script>
- 
+    <script>
+
+    const inputsConfirmed = document.querySelectorAll('.confirmedClass');
+    const inputsAcc = document.querySelectorAll('.accClass');
+    const inputsTransport = document.querySelectorAll('.transportClass');
+    const inputsAdult = document.querySelectorAll('.adultClass');
+    const inputsBaby = document.querySelectorAll('.underThreeYearsClass');
+    const inputsChild = document.querySelectorAll('.between3_12_Class');
+    const inputsDiet = document.querySelectorAll('.dietClass');
+
+    // Funkcja do zmiany statusu dla różnych typów gości
+    function switchStatus(type, id) {
+        const xhr = new XMLHttpRequest();
+        xhr.open('POST', `/guest/${type}/${id}`, true);
+        xhr.setRequestHeader('Content-Type', 'application/json');
+        xhr.onreadystatechange = function () {
+            if (xhr.readyState === XMLHttpRequest.DONE) {
+                if (xhr.status === 200) {
+                    console.log('Status został zmieniony.');
+                    // Możesz dodać kod do aktualizacji interfejsu użytkownika bez przeładowywania strony
+                } else {
+                    console.error('Wystąpił błąd podczas zmiany statusu.');
+                }
+            }
+        };
+        xhr.send();
+    }
+
+    inputsConfirmed.forEach(input => {
+        input.addEventListener('change', function () {
+            const guestId = this.value;
+            const type = 'confirmed';
+            switchStatus(type, guestId);
+            updateGuestSummary(guestId, type);
+        });
+    });
+
+    inputsAcc.forEach(input => {
+        input.addEventListener('change', function () {
+            const guestId = this.value;
+            const type = 'acc';
+            switchStatus(type, guestId);
+            updateGuestSummary(guestId, type);
+        });
+    });
+
+    inputsTransport.forEach(input => {
+        input.addEventListener('change', function () {
+            const guestId = this.value;
+            const type = 'transport';
+            switchStatus(type, guestId);
+            updateGuestSummary(guestId, type);
+        });
+    });
+
+    inputsAdult.forEach(input => {
+        input.addEventListener('change', function () {
+            const guestId = this.value;
+            const type = 'adult';
+            switchStatus(type, guestId);
+            updateGuestSummary(guestId, type);
+        });
+    });
+
+    inputsBaby.forEach(input => {
+        input.addEventListener('change', function () {
+            const guestId = this.value;
+            const type = 'baby';
+            switchStatus(type, guestId);
+            updateGuestSummary(guestId, type);
+        });
+    });
+
+
+    inputsChild.forEach(input => {
+        input.addEventListener('change', function () {
+            const guestId = this.value;
+            const type = 'child';
+            switchStatus(type, guestId);
+            updateGuestSummary(guestId, type);
+        });
+    });
+
+    inputsDiet.forEach(input => {
+        input.addEventListener('change', function () {
+            const guestId = this.value;
+            const type = 'diet';
+            switchStatus(type, guestId);
+            updateGuestSummary(guestId, type);
+        });
+    });
+        
+    // Funkcja do obsługi żądania AJAX po zmianie pola w tabeli gości
+    function updateGuestSummary(guestId, fieldType) {
+
+        console.log('Wysyłanie żądania AJAX...');
+
+        $.ajax({
+            type: 'POST',
+            url: '{{ path('update_guest_summary') }}', // Ścieżka do akcji kontrolera Symfony
+            data: {
+                guest_id: guestId,
+                field_type: fieldType
+            },
+            success: function (data) {
+                console.log('Dane odebrane:', data);
+                document.getElementById('summaryConfirmed').innerHTML = data[0]['confirmed'];
+                document.getElementById('summaryAdult').innerHTML = data[0]['adult'];
+                document.getElementById('summaryChild').innerHTML = data[0]['childOverThree'];
+                document.getElementById('summaryBaby').innerHTML = data[0]['childUnderThree'];
+                document.getElementById('summaryAcc').innerHTML = data[0]['accommodation'];
+                document.getElementById('summaryTransport').innerHTML = data[0]['transport'];
+                document.getElementById('summaryDiet').innerHTML = data[0]['Diet'];
+            },
+            error: function () {
+                alert('Wystąpił błąd podczas aktualizacji podsumowania.'); // Komunikat o błędzie
+            }
+        });
+    }
+    </script>
+
 
 {% endblock %}

@@ -15,15 +15,14 @@ function validateGuest() {
             messages: {
 
                 priceOfPodcategory: {
-                    required: 'Proszę podać imię i nazwisko gościa.',
-                    minlength: 'Imię gościa powinno składać się z przynajmniej 6 znaków.',
-                    maxlength: 'Imię gościa powinno składać się z maksymalnie 50 znaków.',
+                    required: 'Proszę podać imię i nazwisko gościa',
+                    minlength: 'Imię gościa powinno składać się z przynajmniej 6 znaków',
+                    maxlength: 'Imię gościa powinno składać się z maksymalnie 50 znaków',
                 }
 
 
             },
             errorPlacement: function (error, element) {
-
 
                 if (element.attr('name') == 'name') {
                     error.appendTo('.guestError');
@@ -36,3 +35,9 @@ function validateGuest() {
     });
 
 }
+
+
+
+
+
+

@@ -7,12 +7,38 @@ use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Annotation\Route;
 use Symfony\Component\HttpFoundation\Request;
 use Doctrine\ORM\EntityManagerInterface;
+use Symfony\Component\HttpFoundation\JsonResponse;
 
 use App\Entity\Guest;
 use App\Form\GuestType;
 
 class GuestController extends AbstractController
 {
+
+    #[Route('/guest/update-summary', name: 'update_guest_summary')]
+    public function updateSummaryAction(Request $request, EntityManagerInterface $entityManager): JsonResponse
+    {
+        /** 
+         * @var User $user 
+         * */
+        $user = $this->getUser();
+        if (!empty($user)) {
+            $userId = $user->getId();
+        }
+
+
+        // Aktualizuj dane podsumowujące
+        $summary = $entityManager->getRepository(Guest::class)->getSummaryOfGuest($userId);
+
+
+
+        // Zwróć dane jako JSON
+        return new JsonResponse($summary);
+    }
+
+
+
+
     #[Route('/guest', name: 'app_guest')]
     public function index(
         Request $request,
@@ -56,6 +82,7 @@ class GuestController extends AbstractController
                 $newGuest->setIsChildUnderThreeYears($form->get('isChildUnderThreeYears')->getData());
                 $newGuest->isIsChildBetweenThreeAndTwelve($form->get('isChildBetweenThreeAndTwelve')->getData());
                 $newGuest->setSpecialDiet($form->get('specialDiet')->getData());
+                $summary = $entityManager->getRepository(Guest::class)->getSummaryOfGuest($userId);
                 try {
                     $entityManager->persist($newGuest);
                     $entityManager->flush();
@@ -73,5 +100,125 @@ class GuestController extends AbstractController
             'guests' => $guests,
             'summary' => $summary
         ]);
+    }
+
+
+    #[Route('/guest/confirmed/{id}', name: 'guest_confirmed')]
+
+    public function switchStatusOfConfirmed(
+        $id,
+        EntityManagerInterface $entityManager
+    ): Response {
+
+        $guest = $entityManager->getRepository(Guest::class)->find($id);
+
+        $guest->setIsConfirmed(!$guest->isIsConfirmed());
+
+        $entityManager->persist($guest);
+        $entityManager->flush();
+
+        return $this->redirectToRoute('app_guest');
+    }
+
+    #[Route('/guest/transport/{id}', name: 'guest_tranpsport')]
+
+    public function switchStatusOfTransport(
+        $id,
+        EntityManagerInterface $entityManager
+    ): Response {
+
+        $guest = $entityManager->getRepository(Guest::class)->find($id);
+
+        $guest->setTransport(!$guest->isTransport());
+
+        $entityManager->persist($guest);
+        $entityManager->flush();
+
+        return $this->redirectToRoute('app_guest');
+    }
+
+    #[Route('/guest/acc/{id}', name: 'guest_acc')]
+
+    public function switchStatusOfAcc(
+        $id,
+        EntityManagerInterface $entityManager
+    ): Response {
+
+        $guest = $entityManager->getRepository(Guest::class)->find($id);
+
+        $guest->setIsAccommodation(!$guest->isIsAccommodation());
+
+        $entityManager->persist($guest);
+        $entityManager->flush();
+
+        return $this->redirectToRoute('app_guest');
+    }
+
+    #[Route('/guest/adult/{id}', name: 'guest_adult')]
+
+    public function switchStatusOfAdult(
+        $id,
+        EntityManagerInterface $entityManager
+    ): Response {
+
+        $guest = $entityManager->getRepository(Guest::class)->find($id);
+
+        $guest->setIsAdult(!$guest->isIsAdult());
+
+        $entityManager->persist($guest);
+        $entityManager->flush();
+
+        return $this->redirectToRoute('app_guest');
+    }
+
+    #[Route('/guest/baby/{id}', name: 'guest_baby')]
+
+    public function switchStatusOfBaby(
+        $id,
+        EntityManagerInterface $entityManager
+    ): Response {
+
+        $guest = $entityManager->getRepository(Guest::class)->find($id);
+
+        $guest->setIsChildUnderThreeYears(!$guest->isIsChildUnderThreeYears());
+
+        $entityManager->persist($guest);
+        $entityManager->flush();
+
+        return $this->redirectToRoute('app_guest');
+    }
+
+    #[Route('/guest/child/{id}', name: 'guest_child')]
+
+    public function switchStatusOfChild(
+        $id,
+        EntityManagerInterface $entityManager
+    ): Response {
+
+        $guest = $entityManager->getRepository(Guest::class)->find($id);
+
+        $guest->setIsChildBetweenThreeAndTwelve(!$guest->isIsChildBetweenThreeAndTwelve());
+
+        $entityManager->persist($guest);
+        $entityManager->flush();
+
+        return $this->redirectToRoute('app_guest');
+    }
+
+    #[Route('/guest/diet/{id}', name: 'guest_diet')]
+
+    public function switchStatusOfDiet(
+        $id,
+        EntityManagerInterface $entityManager
+    ): Response {
+
+        $guest = $entityManager->getRepository(Guest::class)->find($id);
+
+        $guest->setSpecialDiet(!$guest->isSpecialDiet());
+
+        $entityManager->persist($guest);
+        $entityManager->flush();
+
+        return $this->redirectToRoute('app_guest');
     }
 }
