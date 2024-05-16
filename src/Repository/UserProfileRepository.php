@@ -54,7 +54,39 @@ class UserProfileRepository extends ServiceEntityRepository
     }
 
 
+    public function check_user_profile($userId)
+    {
+        $conn = $this->getEntityManager()->getConnection();
 
+        $sql = "SELECT CASE WHEN COUNT(*)=1 THEN 1 ELSE 0 END AS profile_exists FROM user_profile
+        WHERE user_id = :user_id";
+
+        $stmt = $conn->prepare($sql);
+        $resultSet = $stmt->executeQuery(['user_id' => $userId]);
+
+        $result = $resultSet->fetchAllAssociative();
+
+        return $result[0]['profile_exists'];
+    }
+
+    public function addBudget($userId, $budget)
+    {
+        $conn = $this->getEntityManager()->getConnection();
+
+        $sql = "INSERT INTO user_profile (budget, user_id)
+        VALUES (:budget, :user_id)";
+
+
+        $stmt = $conn->prepare($sql);
+
+        $resultSet = $stmt->executeQuery([
+            'user_id' => $userId,
+            'budget' => $budget
+        ]);
+
+
+        return $resultSet->fetchAllAssociative();
+    }
 
 
     //    /**
