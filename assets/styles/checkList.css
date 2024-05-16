@@ -2,6 +2,14 @@ body {
     background-color: #fff9f9
 }
 
+.pdf-link {
+    float: right;
+    margin-right: 120mm;
+}
+
+.pdf-link .fa-file-pdf {
+    color: black;
+}
 
 
 .wrapper {
@@ -70,6 +78,7 @@ h1 {
     margin: 10px 0 10px 0;
 }
 
+
 .input-group {
     width: 85%;
     margin-left: auto;
@@ -79,6 +88,14 @@ h1 {
     align-items: center;
     align-content: center;
     justify-content: space-between;
+}
+
+#group {
+
+    display: flex;
+    align-items: center;
+    align-content: center;
+    justify-content: flex-start;
 }
 
 
@@ -141,7 +158,11 @@ ul li a {
     text-decoration: line-through;
 }
 
-/*
+.form-check-input {
+    border-radius: 0.25em !important;
+}
+
+
 .form-check-input:hover,
 .form-check-input:focus {
     border-color: #756c6e;
@@ -153,7 +174,7 @@ ul li a {
     background-color: #ef97aa;
     border-color: #ef97aa;
 }
-*/
+
 
 
 #task {

@@ -4,13 +4,8 @@
 
 {% block stylesheets %}
    <link rel="stylesheet" href="{{ asset('styles/checkList.css') }}">
+
 {% endblock %}
-
-
-{% block javascripts %}
-    <script src="{{ asset('controllers/contact.js') }}"></script>
-{% endblock %}
-
 
 {% block body %}
 <nav class="navbar navbar-expand-lg">
@@ -53,125 +48,107 @@
         </div>
     </nav>
 
- 
-   
-    <h1>Lista zadań do wykonania</h1>
-    <div class="wrapper">
-        <form>
+ <div>
+<h1>Lista zadań do wykonania 
+    <a href="{{ path('generate_pdf_action') }}" class="pdf-link">
+        <i class="fas fa-file-pdf"></i>
+    </a>
+</h1>
+<div>
+
+
+<div class="wrapper">
+    <form id="taskListForm">
         {% for category in idOfCategory %}
             <div class="dropdown mb-4 mt-1">
-                <button class="btn dropdown-toggle" type="button" id="dropdownMenuButton1" data-bs-toggle="dropdown"
+                <button class="btn dropdown-toggle" type="button" id="dropdownMenuButton{{ category.id }}" data-bs-toggle="dropdown"
                     aria-expanded="false">
-                    {{ category['name'] }}
+                    {{ category.name }}
                 </button>
-                <ul class="dropdown-menu" aria-labelledby="dropdownMenuButton1">
+                <ul class="dropdown-menu" aria-labelledby="dropdownMenuButton{{ category.id }}">
                     
-                    {% for task in taskAssignedToUser %}
-
-                    
-
-                    {% if category['id'] == task['check_list_category_id'] %}
-                    <li>
-                        <div class="input-group mb-3 mt-1">
-                        {#}
-                        
-                            <div class="input-group-text">
-                            <a href="{{path('switch_status',{'id':task["id"]})}}">  
-                            <input class="form-check-input mt-0" type="checkbox" role="button" value=""
-                                    aria-label="Checkbox for following text input" {% if task["status"]%}checked{% endif %}></a>
-                             </div>
-                             #}
-
-                            
-                            <a href="{{path('switch_status',{'id':task["id"]})}}"> <span  id="task" {% if task["status"]%}class="input-group-text checked"{% else %}class="input-group-text"{% endif %} >{{task['task']}}</span></a>
-                            <a onclick="return confirm('Czy na pewno chcesz usunąć to zadanie?')" href="{{path('task_delete',{'id':task.id})}}"><span class="input-group-text" id="delete"><i class="fa-solid fa-trash-can"></i></span></a>  
-                             
-
-
-                        </div>
-                        
-                    </li>
-    
+                   {% for task in taskAssignedToUser %}
+                    {% if category.id == task.check_list_category_id %}
+                        <li>
+                            <div class="input-group mb-3 mt-1 ">
+                                <div class="input-group" id="group">
+                                    <input class="form-check-input   mt-0 task-checkbox" type="checkbox" role="button"
+                                        value="{{ task.id }}" aria-label="Checkbox for following text input" {% if task.status %}checked{% endif %}>
+                                
+                                <span class="mx-2 task-name {% if task.status %}checked{% endif %}" style="text-wrap: wrap; width: inherit;">{{ task.task }}</span>
+                                </div>
+                                <a onclick="return confirm('Czy na pewno chcesz usunąć to zadanie?')" href="{{ path('task_delete', {'id': task.id}) }}">
+                                    <span class="input-group-text delete-task"><i class="fa-solid fa-trash-can"></i></span>
+                                </a>
+                            </div>
+                        </li>
                     {% endif %}
-                    
-                    {% endfor %}
-
-
+                {% endfor %}
 
                 </ul>
             </div>
-            {% endfor %}
-            <div id="addNewTask" class="mt-5">
-                        <button class="btn" type="button" id="buttonToAddNewTask" data-bs-toggle="modal"
-                            data-bs-target="#addNewTaskModal">Dodaj zadanie</button>
-                </div>
-        </form>
-    </div>
+        {% endfor %}
+        <div id="addNewTask" class="mt-5">
+            <button class="btn" type="button" id="buttonToAddNewTask" data-bs-toggle="modal"
+                data-bs-target="#addNewTaskModal">Dodaj zadanie</button>
+        </div>
+    </form>
+</div>
 
     
 
 
 
-    <!--Modal window to add new task-->
+<!--Modal window to add new task-->
 
 
-    <!-- Modal -->
-    <div class="modal fade" id="addNewTaskModal" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
-        <div class="modal-dialog">
-            <div class="modal-content">
-                <div class="modal-header">
-                    <h5 class="modal-title" id="exampleModalLabel">Dodaj zadanie do wykonania</h5>
-                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
-                </div>
-                <div class="modal-body">
-                <form action="{{ path("create_new_task") }}" method="POST" id="checkListForm">
-                        <div class="mb-3">
-                        
-                            <select class="form-control" name="category" id="floatingInput"
-                                    required>
-                                    <option value="" disabled selected hidden>Wybierz kategorię</option>
-                                    {% for category in idOfCategory %}
-                                    <option name="category" value = {{ category ['id']}}>{{ category['name'] }}</option>
-                                    {% endfor %}
-                            </select>
-                        </div>
-                        <div class="text-danger text-center mt-1 error categoryError" style="list-style-type:none;">
-
-                        </div>
-                        <div class="form-floating mb-3">
-                            <input name = "title" type="text" class="form-control" id="floatingInput" placeholder="..." >
-                            <label for="floatingInput">Nowe zadanie</label>
-                        </div>
-                        <div class="text-danger text-center mt-1 error titleError" style="list-style-type:none;">
-
-                        </div>
-
-
-
-                    
-                </div>
-                <div class="modal-footer">
-                    <button type="button" class="btn btn-danger" id="cancel" data-bs-dismiss="modal">Anuluj</button>
-                    <button type="submit" class=" btn btn-success" id="accept">Zapisz</button>
-                </div>
-                </form>
+<!-- Modal -->
+<div class="modal fade" id="addNewTaskModal" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title" id="exampleModalLabel">Dodaj zadanie do wykonania</h5>
+                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
             </div>
+            <div class="modal-body">
+            <form action="{{ path("create_new_task") }}" method="POST" id="checkListForm">
+                    <div class="mb-3">
+                    
+                        <select class="form-control" name="category" id="floatingInput"
+                                required>
+                                <option value="" disabled selected hidden>Wybierz kategorię</option>
+                                {% for category in idOfCategory %}
+                                <option name="category" value = {{ category ['id']}}>{{ category['name'] }}</option>
+                                {% endfor %}
+                        </select>
+                    </div>
+                    <div class="text-danger text-center mt-1 error categoryError" style="list-style-type:none;">
+
+                    </div>
+                    <div class="form-floating mb-3">
+                        <input name = "title" type="text" class="form-control" id="floatingInput" placeholder="..." >
+                        <label for="floatingInput">Nowe zadanie</label>
+                    </div>
+                    <div class="text-danger text-center mt-1 error titleError" style="list-style-type:none;">
+
+                    </div>
+
+
+
+                
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-danger" id="cancel" data-bs-dismiss="modal">Anuluj</button>
+                <button type="submit" class=" btn btn-success" id="accept">Zapisz</button>
+            </div>
+            </form>
         </div>
     </div>
+</div>
 
+{% endblock %}
 
-        {% block js %}
+    {% block js %}
         <script src="{{ asset('controllers/checkListValidation.js') }}"></script> 
-        <script>
-                // Funkcja do ustawiania stanu rozwinięcia listy w Local Storage
-            function setDropdownState(categoryId, expanded) {
-            localStorage.setItem(`dropdown_state_${categoryId}`, expanded ? 'true' : 'false');
-            }
 
-            // Funkcja do pobierania stanu rozwinięcia listy z Local Storage
-            function getDropdownState(categoryId) {
-            return localStorage.getItem(`dropdown_state_${categoryId}`) === 'true' ? 'true' : 'false';
-            }
-        </script>
-        {% endblock %}
 {% endblock %}

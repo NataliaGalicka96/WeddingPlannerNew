@@ -13,6 +13,8 @@ use Symfony\Component\Validator\Validator\ValidatorInterface;
 
 use Symfony\Component\HttpFoundation\Request;
 
+use TCPDF;
+
 
 
 class CheckListController extends AbstractController
@@ -25,6 +27,63 @@ class CheckListController extends AbstractController
     public $errorString = [];
 
 
+
+    #[Route('/check/pdf', name: 'generate_pdf_action')]
+    public function generatePdfAction(EntityManagerInterface $entityManager): Response
+    {
+        $pdf = new TCPDF(PDF_PAGE_ORIENTATION, PDF_UNIT, PDF_PAGE_FORMAT, true, 'UTF-8', false);
+
+        // Ustawienia czcionki (użyjemy DejaVu Sans)
+        $pdf->SetFont('dejavusans', '', 12, '', true);
+
+        // Ustawienia PDF
+        $pdf->SetCreator(PDF_CREATOR);
+        $pdf->SetAuthor('Twoje Imię');
+        $pdf->SetTitle('Lista zadań do wykonania');
+        $pdf->SetSubject('Lista zadań');
+        $pdf->SetKeywords('TCPDF, PDF, lista, zadań');
+
+        // Dodaj nową stronę
+        $pdf->AddPage();
+
+        // Pobierz dane potrzebne do wygenerowania listy zadań
+        $user = $this->getUser();
+        if ($user) {
+            // Pobieram id zalogowanego użytkownika
+            /** 
+             * @var User $user 
+             */
+            $userId = $user->getId();
+
+            $idOfCategory = $entityManager->getRepository(CheckListCategory::class)->getNameAndIdOfCategory();
+            $taskAssignedToUser = $entityManager->getRepository(CheckList::class)->getTaskAssignedToUser($userId);
+
+            // Utwórz tabelę z danymi zadań
+            $html = '<table border="1">';
+            $html .= '<tr><th>Kategoria</th><th>Zadanie</th><th>Status</th></tr>';
+
+            foreach ($idOfCategory as $category) {
+                foreach ($taskAssignedToUser as $task) {
+                    if ($category['id'] == $task['check_list_category_id']) {
+                        $html .= '<tr>';
+                        $html .= '<td>' . htmlspecialchars($category['name']) . '</td>';
+                        $html .= '<td>' . htmlspecialchars($task['task']) . '</td>';
+                        $html .= '<td>' . ($task['status'] ? 'Wykonane' : 'Nie wykonane') . '</td>';
+                        $html .= '</tr>';
+                    }
+                }
+            }
+            $html .= '</table>';
+
+            // Wydrukowanie HTML do pliku PDF
+            $pdf->writeHTML($html, true, false, true, false, '');
+
+            // Wygenerowanie pliku PDF
+            $pdf->Output('lista_zadan.pdf', 'D');
+        }
+
+        return new Response('', Response::HTTP_NO_CONTENT);
+    }
 
 
     #[Route('/check/list', name: 'app_check_list')]
