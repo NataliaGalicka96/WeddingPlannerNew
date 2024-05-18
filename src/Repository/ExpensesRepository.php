@@ -91,6 +91,7 @@ class ExpensesRepository extends ServiceEntityRepository
         return $resultSet->fetchAllAssociative();
     }
 
+
     public function updateAlreadyPaid($userId, $id, $paid)
     {
         $conn = $this->getEntityManager()->getConnection();

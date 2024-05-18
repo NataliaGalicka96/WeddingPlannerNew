@@ -41,23 +41,23 @@ function validateExpenses() {
             },
             messages: {
                 category: {
-                    required: 'Proszę wybrać kategorię!'
+                    required: 'Proszę wybrać kategorię'
                 },
                 expenseName: {
-                    required: 'Proszę wpisać nazwę wydatku!',
-                    minlength: 'Nazwa wydatku powinna składać się z minimum 10 znaków.',
-                    maxlength: "Nazwa wydatku powinna składać się z maksymalnie 100 znaków.",
+                    required: 'Proszę wpisać nazwę wydatku',
+                    minlength: 'Nazwa wydatku powinna składać się z minimum 10 znaków',
+                    maxlength: "Nazwa wydatku powinna składać się z maksymalnie 100 znaków",
 
                 },
                 price: {
-                    required: 'Proszę podać kwotę.',
-                    min: 'Kwota musi mieścić się w przedziale od 0 do 10000000 zł.',
-                    max: 'Kwota musi mieścić się w przedziale od 0 do 10000000 zł.',
+                    required: 'Proszę podać kwotę',
+                    min: 'Kwota musi mieścić się w przedziale od 0 do 10000000 zł',
+                    max: 'Kwota musi mieścić się w przedziale od 0 do 10000000 zł',
                 },
                 alreadyPaid: {
                     required: 'Proszę podać kwotę.',
-                    min: 'Kwota musi mieścić się w przedziale od 0 do 10000000 zł.',
-                    max: 'Kwota musi mieścić się w przedziale od 0 do 10000000 zł.',
+                    min: 'Kwota musi mieścić się w przedziale od 0 do 10000000 zł',
+                    max: 'Kwota musi mieścić się w przedziale od 0 do 10000000 zł',
                 }
 
             },
@@ -103,8 +103,8 @@ function validatePrice() {
 
                 priceOfPodcategory: {
                     required: 'Proszę podać kwotę.',
-                    min: 'Kwota musi mieścić się w przedziale od 0 do 10000000 zł.',
-                    max: 'Kwota musi mieścić się w przedziale od 0 do 10000000 zł.',
+                    min: 'Kwota musi mieścić się w przedziale od 0 do 10000000 zł',
+                    max: 'Kwota musi mieścić się w przedziale od 0 do 10000000 zł',
                 }
 
 

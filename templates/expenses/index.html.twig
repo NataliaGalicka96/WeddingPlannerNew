@@ -55,34 +55,24 @@
 
 
     <div class="container">
-    <div class="row">
-        <form action="{{ path("set_budget") }}" method="POST">
-
+        <div class="row">
             <div class="input-group mt-3" id="budget">
                 <span class="input-group-text">Budżet</span>
-                <input id="amount" class="form-control" type="number" step="0.01" min="0"
-                    aria-label="default input example" name="budget" placeholder="Podaj budżet" required {% for data in dataOfWedding %}{% if data['budget'] != 0 %}value={{ data['budget'] }}{% endif %}{% endfor %}>
+            
+                <input id="amount" class="form-control budget" type="number" step="0.01" min="0"
+                    aria-label="default input example" name="budget" placeholder="Podaj budżet" 
+                    required {% for data in dataOfWedding %}{% if data['budget'] != 0 %}value={{ data['budget'] }}
+                    {% endif %}{% endfor %}>                             
                 <span class="input-group-text">PLN</span>
             </div>
-            
-        </form>
         </div>
 
         <div class="row">
-        <form action="{{ path("set_budget") }}" method="POST">
-       
+
             {% for data in dataOfWedding %}
-          {#}
-            <div class="input-group mt-3" id="budget">
-                <span class="input-group-text">Budżet</span>
-                <input id="amount" class="form-control" type="number" step="0.01" min="0"
-                    aria-label="default input example" name="budget" placeholder="Podaj budżet" required value={{ price['budget'] }}>
-                <span class="input-group-text">PLN</span>
-            </div>
-            
-        </form>
-        </div>
-    #}
+            <input type="hidden" id="userId" value={{ data['user_id'] }}> <!-- Przykładowy identyfikator użytkownika -->
+
+
         <div class="row mt-3">
             <div class="summary">
                 <table id="summary">
@@ -98,7 +88,7 @@
                         <tr>
                             <td data-label="Budżet" id="Budget">{% if data['budget'] != 0 %} {{ data['budget'] }} zł  {% endif %} </td>
                             {% for sum in sumOfAllExpenses %}
-                            <td data-label="Zapłacono" id="paid">{% if sum['total_paid'] != 0 %} {{ sum['total_paid'] }} zł {% endif %}</td>
+                            <td data-label="Zapłacono" id="paidSummary">{% if sum['total_paid'] != 0 %} {{ sum['total_paid'] }} zł {% endif %}</td>
                             <td data-label="Pozostało do wydania" id="toSpend"></td>
                             {% endfor %}
                         </tr>
@@ -118,7 +108,7 @@
         <div class="podcategory">
             <h1>Szczegóły wydatków</h1>   
                 <div class="wrapper">
-                    <form>
+                   
                         {% for category in allExpensesCategory %}
                         <div class="dropdown mb-4 mt-1">
                             <button class="btn dropdown-toggle" type="button" id="dropdownMenuButton1" data-bs-toggle="dropdown"
@@ -145,36 +135,39 @@
                                             <tr>
                                                 <td data-label="Wydatek">{{detail['expense']}}</td>
 
-                                                <form action="{{ path("update_price",{'id':detail["id"]}) }}" method="POST" id="addPriceForm">
-                                                <td data-label="Cena"><input id="price" class="form-control" type="number" step="0.01" min="0"
-                                                aria-label="default input example" style="border: none; text-align:center;" value="{{detail['price']}}" name="priceOfPodcategory"></td>
-                                                </form>
-                                                <span class="text-danger text-center mt-1 error updatePriceError" style="list-style-type:none;">
-
-                                                 </span>
-
-                                                <form action="{{ path("update_alreadypay",{'id':detail["id"]}) }}" method="POST" id="addAlreadyPaidForm">
-                                                <td data-label="Zapłacono"><input id="alreadySpend" class="form-control" type="number" step="0.01" min="0"
-                                                aria-label="default input example" style="border: none; text-align:center;" value="{{detail['already_paid']}}" name="alreadyPayOfPodcategory"></td>
-                        
-                                                </form>
+                                                <td data-label="Cena">
+                                                    <input id="price" class="form-control inputPrice" type="number" role="button" step="0.01" min="0"
+                                                    aria-label="default input example" style="border: none; text-align:center;" 
+                                                    value="{{detail['price']}}" name="priceOfPodcategory">
+                                                    <input type="hidden" name="entryIdPrice" class="inputIdPrice" value="{{ detail['id'] }}"> 
+                                                </td>
+                                                <td data-label="Zapłacono">
+                                                    <input id="alreadySpend" class="form-control inputPaid" type="number" role="button" step="0.01" min="0"
+                                                    aria-label="default input example" style="border: none; text-align:center;" 
+                                                    value="{{detail['already_paid']}}" name="alreadyPayOfPodcategory">
+                                                    <input type="hidden" name="entryIdAlreadyPaid" class="inputIdPaid" value="{{ detail['id'] }}"> 
+                                                </td>
 
                                                 <td data-label="Pozostało do zapłacenia" id="leftToPay"></td>
                                             </tr>
-                                                
-                                                
+     
                                         {% endif %} {% endfor %}
-                                        <form>
+ 
                                         <tr>
                                         {% for sum in alreadyPaidAndTotalSumGroupByCategory %}
                                         {% if category["category_id"] == sum['budget_category_id'] %}
                                             <td data-label="Wydatek" style="font-weight: bold;">Podsumowanie</td>   
-                                            <td data-label="Cena" style="font-weight: bold;" id="price">{{ sum['price'] }}</td>
-                                            <td data-label="Zapłacono" style="font-weight: bold;" id="alreadySpend">{{ sum['total_paid'] }}</td>
+                                            <td data-label="Cena" style="font-weight: bold;" id="priceSum">{{ sum['price'] }}</td>
+                                            <td data-label="Zapłacono" style="font-weight: bold;" id="alreadySpendSum">{{ sum['total_paid'] }}</td>
                                             <td data-label="Pozostało do zapłacenia" id="left" style="font-weight: bold;"></td>
                                         </tr>
                                         {% endif %}
                                         {% endfor %}
+
+                                        <tr>
+
+                </tr>
+                
 
                                     
                                     </tbody>
@@ -187,7 +180,7 @@
                             <button class="btn" type="button" id="buttonToAddNewExpense" data-bs-toggle="modal"
                             data-bs-target="#addNewExpenseModal">Dodaj wydatek</button>
                         </div>
-                    </form> 
+                   
                 </div>
                         
         </div>
@@ -284,8 +277,220 @@
     
 {% endblock %}
 {% block js %}
-    <script src="{{ asset('controllers/budget.js') }}"></script>
+   {#} <script src="{{ asset('controllers/budget.js') }}"></script>#}
     <script src="{{ asset('controllers/validationExpense.js') }}"></script>
+
+<script>
+ 
+document.addEventListener('DOMContentLoaded', function() {
+    const inputsPrice = document.querySelectorAll('.inputPrice');
+    const inputsPaid = document.querySelectorAll('.inputPaid');
+    const inputsBudget = document.querySelectorAll('.budget');
+
+    const amountInput = document.getElementById('amount');
+    const budgetField = document.getElementById('Budget');
+    const paidSummary = document.getElementById('paidSummary');
+    const toSpendField = document.getElementById('toSpend');
+    const commentDiv = document.getElementById('comment');
+    const leftToPayCells = document.querySelectorAll('#leftToPay');
+
+    function roundToTwoDecimalPlaces(num) {
+        return Math.round((num + Number.EPSILON) * 100) / 100;
+    }
+
+    function formatNumberWithTwoDecimalPlaces(num) {
+        return num.toFixed(2);
+    }
+
+    function updateLeftToPayAll() {
+        const budgetValue = roundToTwoDecimalPlaces(parseFloat(amountInput.value));
+        budgetField.textContent = budgetValue ? `${formatNumberWithTwoDecimalPlaces(budgetValue)} zł` : '';
+        const totalPaid = parseFloat(paidSummary.textContent);
+        const remainingAmount = budgetValue - totalPaid;
+        toSpendField.textContent = formatNumberWithTwoDecimalPlaces(remainingAmount) + ' zł';
+        updateComment(remainingAmount);
+        //updateLeftToPay();
+    }
+
+    function updateComment(remainingAmount) {
+        commentDiv.innerHTML = '';
+        if (remainingAmount >= 0) {
+            commentDiv.textContent = 'Dobrze zarządzasz wydatkami';
+            commentDiv.classList.add('alert-success');
+            commentDiv.classList.remove('alert-danger');
+        } else {
+            commentDiv.textContent = 'Przekroczyłeś założony budżet';
+            commentDiv.classList.add('alert-danger');
+            commentDiv.classList.remove('alert-success');
+        }
+    }
+
+    function updateLeftToPay() {
+        const priceInputs = document.querySelectorAll('.inputPrice');
+        const paidInputs = document.querySelectorAll('.inputPaid');
+
+        for (let i = 0; i < priceInputs.length; i++) {
+            const priceValue = parseFloat(priceInputs[i].value);
+            const paidValue = parseFloat(paidInputs[i].value);
+            if (!isNaN(priceValue)) {
+                const leftToPay = isNaN(paidValue) ? priceValue : priceValue - paidValue;
+                leftToPayCells[i].textContent = formatNumberWithTwoDecimalPlaces(leftToPay) + ' zł';
+            } else {
+                leftToPayCells[i].textContent = '';
+            }
+        }
+    }
+
+   // Function to update Budget cell and calculate the remaining amount
+            function updateBudget(priceValue) {
+                // Tutaj możesz wysłać żądanie AJAX lub użyć fetch API, aby zaktualizować cenę w bazie danych
+                // Pamiętaj, żeby przekazać identyfikator i nową cenę w żądaniu
+                console.log('Nowa cena:', priceValue);
+                // Poniżej znajduje się przykładowe żądanie fetch
+                fetch(`/budget/set`, {
+                    method: 'POST',
+                    headers: {
+                        'Content-Type': 'application/json',
+                    },
+                    body: JSON.stringify({ budget: priceValue }),
+                })
+                .then(response => {
+                    if (response.ok) {
+                        console.log('Cena została zaktualizowana.');
+                        // Tutaj możesz dodać kod do aktualizacji interfejsu użytkownika bez przeładowania strony
+                    } else {
+                        console.error('Wystąpił błąd podczas aktualizacji ceny.');
+                    }
+                })
+                .catch(error => {
+                    console.error('Wystąpił błąd:', error);
+                });
+            }
+
+    async function updatePrice(entryIdPrice, priceValue) {
+        try {
+            const response = await fetch(`/budget/update/price/${entryIdPrice}`, {
+                method: 'POST',
+                headers: { 'Content-Type': 'application/json' },
+                body: JSON.stringify({ priceOfPodcategory: priceValue }),
+            });
+            if (response.ok) {
+                console.log('Cena została zaktualizowana.');
+                updateExpenseSummary('price', data => {
+                    document.getElementById('priceSum').innerHTML = data[0]['price'];
+                    calculateLeftToPay();
+                });
+            } else {
+                console.error('Wystąpił błąd podczas aktualizacji ceny.');
+            }
+        } catch (error) {
+            console.error('Wystąpił błąd:', error);
+        }
+    }
+
+    async function updatePaid(entryIdPaid, paidValue) {
+        try {
+            const response = await fetch(`/budget/update/alreadyPaid/${entryIdPaid}`, {
+                method: 'POST',
+                headers: { 'Content-Type': 'application/json' },
+                body: JSON.stringify({ alreadyPayOfPodcategory: paidValue }),
+            });
+            if (response.ok) {
+                console.log('Kwota zapłacona została zaktualizowana.');
+                updateExpenseSummary('total_paid', data => {
+                    document.getElementById('alreadySpendSum').innerHTML = data[0]['total_paid'];
+                    calculateLeftToPay();
+                });
+            } else {
+                console.error('Wystąpił błąd podczas aktualizacji kwoty zapłaconej.');
+            }
+        } catch (error) {
+            console.error('Wystąpił błąd:', error);
+        }
+    }
+
+    function calculateLeftToPay() {
+        const summaryRows = document.querySelectorAll('tr');
+        summaryRows.forEach(row => {
+            const priceElement = row.querySelector('#priceSum');
+            const alreadySpendElement = row.querySelector('#alreadySpendSum');
+            const leftToPayElement = row.querySelector('#left');
+
+            if (priceElement && alreadySpendElement && leftToPayElement) {
+                const price = parseFloat(priceElement.textContent);
+                const alreadySpend = parseFloat(alreadySpendElement.textContent);
+                const leftToPay = price - alreadySpend;
+                leftToPayElement.textContent = leftToPay.toFixed(2) + ' zł';
+            }
+        });
+    }
+
+    function updateExpenseSummary(fieldType, callback) {
+        $.ajax({
+            type: 'POST',
+            url: '{{ path('update_budget_summary') }}',
+            data: { field_type: fieldType },
+            success: function(data) {
+                callback(data);
+            },
+            error: function() {
+                alert('Wystąpił błąd podczas aktualizacji podsumowania.');
+            }
+        });
+    }
+
+    amountInput.addEventListener('input', updateLeftToPayAll);
+
+    inputsPrice.forEach(input => {
+        input.addEventListener('change', function() {
+            const priceValue = this.value;
+            const entryIdPrice = this.parentElement.querySelector('.inputIdPrice').value;
+            if (!isNaN(priceValue)) {
+                updatePrice(entryIdPrice, priceValue);
+            }
+        });
+    });
+
+    inputsPaid.forEach(input => {
+        input.addEventListener('change', function() {
+            const paidValue = this.value;
+            const entryIdPaid = this.parentElement.querySelector('.inputIdPaid').value;
+            if (!isNaN(paidValue)) {
+                updatePaid(entryIdPaid, paidValue);
+            }
+        });
+    });
+
+    inputsBudget.forEach(input => {
+        input.addEventListener('change', function() {
+            const budgetValue = this.value;
+            if (!isNaN(budgetValue)) {
+                updateBudget(budgetValue);
+                updateLeftToPayAll();
+            }
+        });
+    });
     
+
+    window.onload = function() {
+        updateLeftToPayAll();
+        updateLeftToPay();
+        calculateLeftToPay();
+    };
+    
+    const priceInputs = document.querySelectorAll('.inputPrice');
+    const paidInputs = document.querySelectorAll('.inputPaid');
+
+    priceInputs.forEach(input => {
+        input.addEventListener('input', updateLeftToPay);
+    });
+
+    paidInputs.forEach(input => {
+        input.addEventListener('input', updateLeftToPay);
+    });
+});
+
+
+</script>  
 
 {% endblock %}

@@ -8,15 +8,19 @@ let alreadyPaid = (parseFloat(document.querySelector('td#paid').innerHTML)).toFi
 
 
 let difference = (budget - alreadyPaid).toFixed(2);
+console.log('Różnica'.difference);
 
 let spend = isNaN(difference) ? "0.00" : difference;
 
+let newBudget2 = isNaN(budget) ? "0.00" : budget;
 
+let newAlreadyPaid2 = isNaN(alreadyPaid) ? "0.00" : alreadyPaid;
 
-let newBudget = budget.replace('.', ',');
-let newPaid = alreadyPaid.replace('.', ',');
+let newBudget = newBudget2.replace('.', ',');
+let newPaid = newAlreadyPaid2.replace('.', ',');
 let newToSpend = spend.replace('.', ',');
 
+console.log('budget'.newBudget);
 
 tdBudget.innerHTML = newBudget + " zł";
 tdAlreadyPaid.innerHTML = newPaid + " zł";
