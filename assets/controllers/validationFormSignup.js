@@ -16,7 +16,7 @@ function validateSignForm() {
             return false;
         },
 
-        'Nazwa użytkownika może zawierać tylko litery.'
+        'Nazwa użytkownika może zawierać tylko litery'
     );
 
 

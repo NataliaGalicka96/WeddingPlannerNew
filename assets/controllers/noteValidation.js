@@ -25,12 +25,12 @@ function validateNote() {
 
                 title: {
                     required: 'Proszę podać tytuł notatki.',
-                    minlength: "Tytuł musi składać się z conajmniej 6 znaków.",
+                    minlength: "Tytuł musi składać się z conajmniej 6 znaków",
                     maxlength: "Tytuł może składać się z maksymalnie 30 znaków",
                 },
                 content: {
                     required: 'Proszę wpisać treść notatki.',
-                    minlength: "Notatka musi składać się z conajmniej 10 znaków.",
+                    minlength: "Notatka musi składać się z conajmniej 10 znaków",
                     maxlength: "Notatka może składać się z maksymalnie 400 znaków",
                 },
 
@@ -82,7 +82,7 @@ function validateEditNote() {
                 },
                 NodeIterator: {
                     required: 'Proszę wpisać treść notatki.',
-                    minlength: "Notatka musi składać się z conajmniej 10 znaków.",
+                    minlength: "Notatka musi składać się z conajmniej 10 znaków",
                     maxlength: "Notatka może składać się z maksymalnie 400 znaków",
                 },
 
