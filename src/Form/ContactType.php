@@ -50,7 +50,7 @@ class ContactType extends AbstractType
                 'row_attr' => [
                     'class' => 'form-floating mb-3'
                 ],
-                'required' => true,
+                'required' => false,
                 'constraints' => [
                     new NotBlank([
                         'message' => 'Proszę podać adres e-mail.',
