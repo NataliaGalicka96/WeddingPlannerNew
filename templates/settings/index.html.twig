@@ -4,6 +4,10 @@
 {% endblock %}
 {% block title %}Settings{% endblock %}
 
+{% block javascripts %}
+
+{% endblock %}
+
 {% form_theme form 'bootstrap_5_layout.html.twig' %}
 
 {% block body %}
@@ -148,8 +152,8 @@
             </div>
 
             <div class="modal-footer">
-                <button type="button" class="btn btn-danger" id="cancel" data-bs-dismiss="modal">Anuluj</button>
-                    <button type="submit" class=" btn btn-success" id="accept">Zapisz</button>
+                <button type="button" class="btn btn-danger" id="cancelPassword" data-bs-dismiss="modal">Anuluj</button>
+                    <button type="submit" class=" btn btn-success" id="acceptPassword">Zapisz</button>
             </div>
             </form>
         </div>
@@ -172,8 +176,8 @@
                     <div class="row mb-3">
 
                         <div class="input-group justify-self-center">
-                            <label for="username" class="form-label">Imię Panny Młodej</label>
-                            <input id="username" class="form-control" type="text" name="brideName"
+                            <label for="usernameBride" class="form-label">Imię Panny Młodej</label>
+                            <input id="usernameBride" class="form-control" type="text" name="brideName"
                                 placeholder={{ data['bride_name']}} required>
                         </div>
                         
@@ -188,8 +192,8 @@
 
             </div>
             <div class="modal-footer">
-                <button type="button" class="btn btn-danger" id="cancel" data-bs-dismiss="modal">Anuluj</button>
-                    <button type="submit" class=" btn btn-success" id="accept">Zapisz</button>
+                <button type="button" class="btn btn-danger" id="cancelBrideName" data-bs-dismiss="modal">Anuluj</button>
+                    <button type="submit" class=" btn btn-success" id="acceptBrideName">Zapisz</button>
             </div>
             </form>
         </div>
@@ -212,8 +216,8 @@
                     <div class="row mb-3">
                     
                         <div class="input-group justify-self-center">
-                            <label for="username" class="form-label">Nazwa użytkownika</label>
-                            <input id="username" class="form-control" type="text" name="groomName"
+                            <label for="usernameGroom" class="form-label">Nazwa użytkownika</label>
+                            <input id="usernameGroom" class="form-control" type="text" name="groomName"
                                 placeholder={{ data['groom_name']}} required>
                         </div>
                     {% endfor %}
@@ -225,8 +229,8 @@
 
             </div>
             <div class="modal-footer">
-                <button type="button" class="btn btn-danger" id="cancel" data-bs-dismiss="modal">Anuluj</button>
-                    <button type="submit" class=" btn btn-success" id="accept">Zapisz</button>
+                <button type="button" class="btn btn-danger" id="cancelGroomName" data-bs-dismiss="modal">Anuluj</button>
+                    <button type="submit" class=" btn btn-success" id="acceptGroomName">Zapisz</button>
             </div>
             </form>
         </div>
@@ -248,8 +252,8 @@
                     <div class="row mb-3">
                     
                         <div class="input-group justify-self-center">
-                            <label for="username" class="form-label">Data ślubu</label>
-                            <input id="username" class="form-control" type="datetime-local" name="date"
+                            <label for="usernameDate" class="form-label">Data ślubu</label>
+                            <input id="usernameDate" class="form-control" type="datetime-local" name="date"
                                 placeholder={{ data['wedding_date']}} required>
                         </div>
                         {% endfor %}
@@ -262,13 +266,29 @@
 
             </div>
             <div class="modal-footer">
-                <button type="button" class="btn btn-danger" id="cancel" data-bs-dismiss="modal">Anuluj</button>
-                    <button type="submit" class=" btn btn-success" id="accept">Zapisz</button>
+                <button type="button" class="btn btn-danger" id="cancelDate" data-bs-dismiss="modal">Anuluj</button>
+                    <button type="submit" class=" btn btn-success" id="acceptDate">Zapisz</button>
             </div>
             </form>
         </div>
     </div>
 </div>
 
+<script>
+
+const input = document.getElementById('password');
+
+function showPassword() {
+    if (input.type === "password") {
+        input.type = "text";
+        input.innerText = input.value;
+    } else {
+        input.type = "password";
+    }
+}
+</script>
+
 
 {% endblock %}
+
+
