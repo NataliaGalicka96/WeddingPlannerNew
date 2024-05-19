@@ -58,22 +58,21 @@ class CheckListController extends AbstractController
             $idOfCategory = $entityManager->getRepository(CheckListCategory::class)->getNameAndIdOfCategory();
             $taskAssignedToUser = $entityManager->getRepository(CheckList::class)->getTaskAssignedToUser($userId);
 
-            // Utwórz tabelę z danymi zadań
-            $html = '<table border="1">';
-            $html .= '<tr><th>Kategoria</th><th>Zadanie</th><th>Status</th></tr>';
+            // Utwórz HTML z danymi zadań
+            $html = '';
 
             foreach ($idOfCategory as $category) {
+                $html .= '<h2>' . htmlspecialchars($category['name']) . '</h2>';
+                $html .= '<ul>';
                 foreach ($taskAssignedToUser as $task) {
                     if ($category['id'] == $task['check_list_category_id']) {
-                        $html .= '<tr>';
-                        $html .= '<td>' . htmlspecialchars($category['name']) . '</td>';
-                        $html .= '<td>' . htmlspecialchars($task['task']) . '</td>';
-                        $html .= '<td>' . ($task['status'] ? 'Wykonane' : 'Nie wykonane') . '</td>';
-                        $html .= '</tr>';
+
+                        $checkbox = $task['status'] ? '&#9745;' : '&#9744;'; // Zaznaczony lub niezaznaczony checkbox
+                        $html .= '<li>' . $checkbox . ' ' . htmlspecialchars($task['task']) . '</li>';
                     }
                 }
+                $html .= '</ul>';
             }
-            $html .= '</table>';
 
             // Wydrukowanie HTML do pliku PDF
             $pdf->writeHTML($html, true, false, true, false, '');
@@ -84,6 +83,7 @@ class CheckListController extends AbstractController
 
         return new Response('', Response::HTTP_NO_CONTENT);
     }
+
 
 
     #[Route('/check/list', name: 'app_check_list')]
