@@ -36,6 +36,7 @@ class MainPageAfterLogInController extends AbstractController
             $userId = $user->getId();
         }
 
+        
         //$em = $this->getDoctrine()->getManager();
 
         $dataOfWedding = $entityManager->getRepository(UserProfile::class)->getDataOfWedding($userId);
@@ -48,8 +49,22 @@ class MainPageAfterLogInController extends AbstractController
 
         if ($form->isSubmitted() && $form->isValid()) {
             if ($this->getUser()) {
-                $weddingDetail = new UserProfile();
 
+                $is_user_profile = $entityManager->getRepository(UserProfile::class)->check_user_profile($userId);
+
+                $brideName = $form->get('bride_name')->getData();
+                $groomName = $form->get('groom_name')->getData();
+                $date = $form->get('wedding_date')->getData();
+
+
+                if ($is_user_profile == 1) {
+                    $entityManager->getRepository(UserProfile::class)->setWeddingData($userId, $brideName, $groomName, $date);
+                } else {
+                    $entityManager->getRepository(UserProfile::class)->addWeddingData($userId, $brideName, $groomName, $date);
+                }
+
+                /*
+                $weddingDetail = new UserProfile();
                 $weddingDetail->setUser($this->getUser());
                 $weddingDetail->setBrideName($form->get('bride_name')->getData());
                 $weddingDetail->setGroomName($form->get('groom_name')->getData());
@@ -64,15 +79,16 @@ class MainPageAfterLogInController extends AbstractController
                     return $this->redirectToRoute('app_main_page');
                 } else {
                     $this->addFlash('error', 'Nie udało się ustawić danych!');
-                }
+                }*/
             }
         }
-
+        
         return $this->render('main_page/index.html.twig', [
 
             'form' => $form->createView(),
             'dataWedding' => $dataOfWedding
 
         ]);
+
     }
 }

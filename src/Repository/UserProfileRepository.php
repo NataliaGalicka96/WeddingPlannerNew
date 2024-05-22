@@ -88,6 +88,56 @@ class UserProfileRepository extends ServiceEntityRepository
         return $resultSet->fetchAllAssociative();
     }
 
+    public function addWeddingData($userId, $brideName, $groomName, $weddingDate)
+    {
+        $conn = $this->getEntityManager()->getConnection();
+
+        $weddingDateString = $weddingDate->format('Y-m-d H:i:s');
+
+        $sql = "INSERT INTO user_profile (user_id, bride_name, groom_name, wedding_date)
+        VALUES (:user_id, :bride_name, :groom_name, :wedding_date)";
+
+
+        $stmt = $conn->prepare($sql);
+
+        $resultSet = $stmt->executeQuery([
+            'user_id' => $userId,
+            'bride_name' => $brideName,
+            'groom_name' => $groomName,
+            'wedding_date' => $weddingDateString
+        ]);
+
+
+        return $resultSet->fetchAllAssociative();
+    }
+
+    public function setWeddingData($userId, $brideName, $groomName, $weddingDate)
+    {
+
+        $conn = $this->getEntityManager()->getConnection();
+
+        $weddingDateString = $weddingDate->format('Y-m-d H:i:s');
+
+        $sql = "UPDATE user_profile
+        SET 
+        bride_name = :brideName,
+        groom_name = :groomName,
+        wedding_date = :weddingDate
+        WHERE user_id =:userId";
+        
+
+        $stmt = $conn->prepare($sql);
+        $resultSet = $stmt->executeQuery([
+            'user_id' => $userId,
+            'bride_name' => $brideName,
+            'groom_name' => $groomName,
+            'wedding_date' => $weddingDateString
+        ]);
+
+
+        return $resultSet->fetchAllAssociative();
+    }
+
 
     //    /**
     //     * @return UserProfile[] Returns an array of UserProfile objects

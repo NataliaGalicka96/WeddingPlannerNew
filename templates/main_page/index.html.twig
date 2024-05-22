@@ -56,24 +56,41 @@
     </nav>
 
     <div class="wrapper">
+{% if dataWedding is empty %}
+    <div class="container">
+        <h1>Uzupełnij dane</h1>
+        {{ form_start(form) }}
+        {{ form_row(form.bride_name) }}
+        {{ form_row(form.groom_name) }}
+        {{ form_row(form.wedding_date) }}
+        <button type="submit" class="btn btn-success" id="accept">Zapisz</button>
+        {{ form_end(form) }}
+    </div>
+{% else %}
+    {% set incompleteData = false %}
+    {% for data in dataWedding %}
+        {% if data.wedding_date is empty or data.bride_name is empty or data.groom_name is empty %}
+            {% set incompleteData = true %}
+        {% endif %}
+    {% endfor %}
 
-        {% if dataWedding is empty %}
-            <div class="container">
+    {% if incompleteData %}
+        <div class="container">
             <h1>Uzupełnij dane</h1>
             {{ form_start(form) }}
             {{ form_row(form.bride_name) }}
             {{ form_row(form.groom_name) }}
             {{ form_row(form.wedding_date) }}
-            <button type="submit" class=" btn btn-success" id="accept">Zapisz</button>
+            <button type="submit" class="btn btn-success" id="accept">Zapisz</button>
             {{ form_end(form) }}
         </div>
-        {% else %}
+    {% else %}
         {% for data in dataWedding %}
-        <div>
-            <div class="row">
-                <div class="col-8">
-                        <h1>{{ data['bride_name'] }} & {{ data['groom_name'] }}</h1>
-                        <p hidden id = "time">{{ data['wedding_date'] }}</p> 
+            <div>
+                <div class="row">
+                    <div class="col-8">
+                        <h1>{{ data.bride_name }} & {{ data.groom_name }}</h1>
+                        <p hidden id="time">{{ data.wedding_date }}</p>
                         <h1 style="color:#f07c22;" id="weddingHeader"></h1>
                         <div id="timer">
                             <div id="days" class="timer-item"></div>
@@ -84,13 +101,13 @@
                     </div>
                 </div>
                 <div class="row">
-                  {#}  <img src={{ asset("images/nowe1.png")}}>#}
+                    <img src="{{ asset('images/nowe1.png') }}" alt="Wedding Image">
                 </div>
             </div>
-        </div>
- {% endfor %}
+        {% endfor %}
+    {% endif %}
 {% endif %}
-   
+
 
 {% endblock %}
 

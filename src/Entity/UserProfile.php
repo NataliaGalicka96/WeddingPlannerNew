@@ -32,7 +32,7 @@ class UserProfile
     #[ORM\Column(length: 255, nullable: true)]
     private ?string $groom_name = null;
 
-    #[ORM\Column(type: Types::DATETIME_MUTABLE)]
+    #[ORM\Column(type: Types::DATETIME_MUTABLE, nullable: true)]
     private ?\DateTimeInterface $wedding_date = null;
 
     #[ORM\OneToOne(inversedBy: 'userProfile', cascade: ['persist', 'remove'])]
