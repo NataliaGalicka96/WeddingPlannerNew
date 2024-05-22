@@ -303,27 +303,44 @@ document.addEventListener('DOMContentLoaded', function() {
     }
 
     function updateLeftToPayAll() {
-        const budgetValue = roundToTwoDecimalPlaces(parseFloat(amountInput.value));
-        budgetField.textContent = budgetValue ? `${formatNumberWithTwoDecimalPlaces(budgetValue)} zł` : '';
-        const totalPaid = parseFloat(paidSummary.textContent);
-        const remainingAmount = budgetValue - totalPaid;
-        toSpendField.textContent = formatNumberWithTwoDecimalPlaces(remainingAmount) + ' zł';
-        updateComment(remainingAmount);
-        //updateLeftToPay();
+    const budgetValue = roundToTwoDecimalPlaces(parseFloat(amountInput.value));
+    
+    if (isNaN(budgetValue) || budgetValue === '') {
+        budgetField.textContent = '';
+        toSpendField.textContent = '0.00 zł';
+        updateComment(null);
+        return;
     }
 
-    function updateComment(remainingAmount) {
-        commentDiv.innerHTML = '';
-        if (remainingAmount >= 0) {
-            commentDiv.textContent = 'Dobrze zarządzasz wydatkami';
-            commentDiv.classList.add('alert-success');
-            commentDiv.classList.remove('alert-danger');
-        } else {
-            commentDiv.textContent = 'Przekroczyłeś założony budżet';
-            commentDiv.classList.add('alert-danger');
-            commentDiv.classList.remove('alert-success');
-        }
+    budgetField.textContent = `${formatNumberWithTwoDecimalPlaces(budgetValue)} zł`;
+
+    const totalPaid = parseFloat(paidSummary.textContent);
+    const remainingAmount = budgetValue - totalPaid;
+
+    toSpendField.textContent = formatNumberWithTwoDecimalPlaces(remainingAmount) + ' zł';
+    updateComment(remainingAmount);
+    //updateLeftToPay();
+}
+
+function updateComment(remainingAmount) {
+    commentDiv.innerHTML = '';
+    
+    if (remainingAmount === null) {
+        commentDiv.textContent = 'Proszę uzupełnić przeznaczony budżet';
+        commentDiv.classList.add('alert-danger');
+        commentDiv.classList.remove('alert-success');
+    } else if (remainingAmount >= 0) {
+        commentDiv.textContent = 'Dobrze zarządzasz wydatkami';
+        commentDiv.classList.add('alert-success');
+        commentDiv.classList.remove('alert-danger');
+    } else {
+        commentDiv.textContent = 'Przekroczyłeś założony budżet';
+        commentDiv.classList.add('alert-danger');
+        commentDiv.classList.remove('alert-success');
     }
+}
+
+
 
     function updateLeftToPay() {
         const priceInputs = document.querySelectorAll('.inputPrice');
